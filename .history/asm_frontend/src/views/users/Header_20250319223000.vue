@@ -26,21 +26,9 @@ import { RouterLink } from 'vue-router';
                         </div>
                     </div>
                     <ul class="navbar-nav navbar-nav-hover justify-content-center ml-auto">
-                        <li class="nav-item">
-                            <RouterLink to="/careers" class="nav-link">
-                                Tuyển Dụng
-                            </RouterLink>
-                        </li>
-                        <li class="nav-item">
-                            <RouterLink to="/about" class="nav-link">
-                                Về chúng tôi
-                            </RouterLink>
-                        </li>
-                        <li class="nav-item">
-                            <RouterLink to="/contact" class="nav-link">
-                                Liên hệ
-                            </RouterLink>
-                        </li>
+                        <li class="nav-item"><a href="careers.html" class="nav-link">Tuyển Dụng</a></li>
+                        <li class="nav-item"><a href="team.html" class="nav-link">Về chúng tôi</a></li>
+                        <li class="nav-item"><a href="contact.html" class="nav-link">Liên hệ</a></li>
                     </ul><a href="#download_app" target="_blank"
                         class="btn btn-buy btn-secondary animate-up-2 d-none d-lg-inline ml-3">Trải
                         nghiệm ngay</a>
