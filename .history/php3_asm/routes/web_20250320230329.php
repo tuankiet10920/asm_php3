@@ -6,7 +6,6 @@ use App\Http\Controllers\DegreeController;
 use App\Http\Controllers\StudentClassController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
-use App\Http\Controllers\TutorBillController;
 use App\Http\Controllers\TutorController;
 use App\Http\Controllers\TypeClassController;
 use Illuminate\Support\Facades\Route;
@@ -51,6 +50,3 @@ Route::get('/api/degree/{id}', [DegreeController::class, 'getById']);
 
 Route::get('/api/classes', [ClassController::class, 'index']);
 Route::get('/api/class/{id}', [ClassController::class, 'getById']);
-
-Route::get('/api/tutor-bills', [TutorBillController::class, 'index']);
-Route::get('/api/tutor-bill/{id}', [TutorBillController::class, 'getById']);
