@@ -45,6 +45,37 @@ const router = createRouter({
 
       name: 'tutors',
       component: () => import('../views/admin/TutorsView.vue'),
+    },
+    {
+      path: '/tables/students',
+
+      name: 'students',
+      component: () => import('../views/admin/StudentsView.vue'),
+    },
+    {
+      path: '/tables/Classes',
+
+      name: 'Classes',
+      component: () => import('../views/admin/ClassesView.vue'),
+    },
+    {
+      path: '/tables/Payments',
+
+      name: 'Payments',
+      component: () => import('../views/admin/PaymentsView.vue'),
+    },
+    {
+      path: '/tables/Revenues',
+
+      name: 'Revenues',
+      component: () => import('../views/admin/RevenuesView.vue'),
+    }
+    ,
+    {
+      path: '/tables/Feedbacks',
+
+      name: 'Feedbacks',
+      component: () => import('../views/admin/FeedbacksView.vue'),
     }
   ],
 })
