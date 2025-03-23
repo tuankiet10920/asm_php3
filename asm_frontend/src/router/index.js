@@ -40,6 +40,12 @@ const router = createRouter({
       name: 'tables',
       component: () => import('../views/admin/TablesView.vue'),
     },
+    {
+      path: '/tables/tutors',
+
+      name: 'tutors',
+      component: () => import('../views/admin/TutorsView.vue'),
+    }
   ],
 })
 
