@@ -25,6 +25,22 @@ class Classes extends Model
         'id_subject',
         'id_tutor',
     ];
+    // Liên kết các bảng nha các bro
+    public function type()
+    {
+        return $this->belongsTo(TypeClass::class, 'id_type');
+    }
+
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class, 'id_subject');
+    }
+
+    public function tutor()
+    {
+        return $this->belongsTo(Tutor::class, 'id_tutor');
+    }
+
     protected static function boot()
     {
         parent::boot();

@@ -52,6 +52,9 @@ Route::post('/class', [ClassController::class, 'store']);
 Route::get('/tutor-bills', [TutorBillController::class, 'index']);
 Route::get('/tutor-bill/{id}', [TutorBillController::class, 'getById']);
 Route::post('/tutor-bill', [TutorBillController::class, 'store']);
+Route::put('/tutor-bill/{id}', [TutorBillController::class, 'update']);
+Route::post('/tutor-bill', [TutorBillController::class, 'delete']);
+
 
 Route::post('/product/{id}', function ($id) {
     return response()->json(['id' => $id]);

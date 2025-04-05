@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tutor extends Model
 {
+
     // `id`, `name`, `birthday`, `education_level`, `address`, `image`, 
     // `email`, `phone`, `momo_acc_num`, `created_at`, `updated_at`
     protected $table = 'tutor';
@@ -20,6 +21,7 @@ class Tutor extends Model
         'phone' => '0123456789',
         'momo_acc_num' => '0123456789',
     ];
+
     protected $fillable = [
         'name',
         'birthday',
@@ -30,4 +32,8 @@ class Tutor extends Model
         'phone',
         'momo_acc_num',
     ];
+    public function classes()
+    {
+        return $this->hasMany(Classes::class, 'id_tutor', 'id');
+    }
 }
