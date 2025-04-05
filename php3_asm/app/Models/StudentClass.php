@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class StudentClass extends Model
 {
-    // `id`, `point`, `feedback_content`, `feedback_time`, `class_opener`, 
+    // `id`, `point`, `feedback_content`, `feedback_time`, `class_opener`,
     // `payment_total`, `payment_time`, `created_at`, `updated_at`, `id_student`, `id_class`
-    protected $table = 'class';
+    protected $table = 'student_class';
     protected $dates = [
         'feedback_time',
         'payment_time',

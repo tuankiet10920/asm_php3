@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Classes extends Model
 {
-    // `id`, `time_start`, `status`, `qty_students`, `created_at`, 
+    // `id`, `time_start`, `status`, `qty_students`, `created_at`,
     // `updated_at`, `id_type`, `id_subject`, `id_tutor`
     protected $table = 'class';
     protected $dates = ['time_start'];

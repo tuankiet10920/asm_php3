@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Subject extends Model
 {
-    // `id`, `name`, `course_duration`, `name_lesson`, `image`, 
+    // `id`, `name`, `course_duration`, `name_lesson`, `image`,
     // `note`, `file`, `id_subject`, `created_at`, `updated_at`
     protected $table = 'subject';
     protected $attributes = [

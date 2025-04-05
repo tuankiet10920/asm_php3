@@ -31,9 +31,14 @@ class ClassController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
+    function store(Request $request){
+        $kq = App\Models\Classes::create($request->all());
+        // Hoặc bạn có thể trả về ID nếu cần sử dụng ở nơi khác
+        return response()->json([
+            'message' => 'Successfully!',
+            'data' => $kq,
+            'id' => $kq->id
+        ], 201);
     }
 
     /**

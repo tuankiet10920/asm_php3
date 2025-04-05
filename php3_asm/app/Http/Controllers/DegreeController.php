@@ -16,4 +16,13 @@ class DegreeController extends Controller
         $degree = App\Models\Degree::find($id);
         return response()->json($degree);
     }
+    function store(Request $request){
+        $kq = App\Models\Degree::create($request->all());
+        // Hoặc bạn có thể trả về ID nếu cần sử dụng ở nơi khác
+        return response()->json([
+            'message' => 'Successfully!',
+            'data' => $kq,
+            'id' => $kq->id
+        ], 201);
+    }
 }

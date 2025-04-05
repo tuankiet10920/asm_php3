@@ -40,6 +40,43 @@ const router = createRouter({
       name: 'tables',
       component: () => import('../views/admin/TablesView.vue'),
     },
+    {
+      path: '/tutors',
+
+      name: 'tutors',
+      component: () => import('../views/admin/TutorsView.vue'),
+    },
+    {
+      path: '/students',
+
+      name: 'students',
+      component: () => import('../views/admin/StudentsView.vue'),
+    },
+    {
+      path: '/classes',
+
+      name: 'Classes',
+      component: () => import('../views/admin/ClassesView.vue'),
+    },
+    {
+      path: '/payments',
+
+      name: 'Payments',
+      component: () => import('../views/admin/PaymentsView.vue'),
+    },
+    {
+      path: '/revenues',
+
+      name: 'Revenues',
+      component: () => import('../views/admin/RevenuesView.vue'),
+    }
+    ,
+    {
+      path: '/feedbacks',
+
+      name: 'Feedbacks',
+      component: () => import('../views/admin/FeedbacksView.vue'),
+    }
   ],
 })
 

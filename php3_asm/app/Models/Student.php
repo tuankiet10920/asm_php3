@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
 {
-    // `id`, `name`, `image`, `birthday`, `address`, 
+    // `id`, `name`, `image`, `birthday`, `address`,
     // `email`, `phone`, `created_at`, `updated_at`
     protected $table = 'student';
     protected $dates = ['birthday'];
@@ -14,7 +14,7 @@ class Student extends Model
         'name' => 'Student X',
         'image' => 'studentx.jpg',
         'birthday' => '1975-04-30',
-        'address' => 'studentx.jpg',
+        'address' => 'X street, X ward, X city',
         'email' => 'studentx@gmail.com',
         'phone' => '0123456789',
     ];

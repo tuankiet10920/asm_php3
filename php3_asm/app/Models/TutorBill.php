@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class TutorBill extends Model
 {
-    // `id`, `fee`, `total`, `status`, `payment_method`, `created_at`, 
+    // `id`, `fee`, `total`, `status`, `payment_method`, `created_at`,
     // `updated_at`, `id_tutor`, `id_class`
-    protected $table = 'class';
+    protected $table = 'tutor_bill';
     protected $attributes = [
         'fee' => 10,
         'total' => 23000000,
