@@ -11,11 +11,14 @@ class ClassController extends Controller
     /**
      * Display a listing of the resource.
      */
-    function index(){
-        $classes = App\Models\Classes::all();
+    function index()
+    {
+        $classes = App\Models\Classes::with(['type', 'subject', 'tutor'])->get();
         return response()->json($classes);
     }
-    function getById($id){
+
+    function getById($id)
+    {
         $class = App\Models\Classes::find($id);
         return response()->json($class);
     }
@@ -31,7 +34,8 @@ class ClassController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    function store(Request $request){
+    function store(Request $request)
+    {
         $kq = App\Models\Classes::create($request->all());
         // Hoặc bạn có thể trả về ID nếu cần sử dụng ở nơi khác
         return response()->json([

@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,15 +13,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // $this->call([
-        //     Student::class, 
-        //     Tutor::class, 
-        //     Subject::class,
-        //     Degree::class, 
-        //     TypeClass::class,
-        //     Classes::class,
-        //     StudentClass::class, 
-        //     TutorBill::class, 
-        // ]);
+        $this->call([
+            Student::class,
+            Tutor::class,
+            Subject::class,
+            Degree::class,
+            TypeClass::class,
+            Classes::class,
+            StudentClass::class,
+            TutorBill::class,
+        ]);
     }
 }
