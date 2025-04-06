@@ -17,7 +17,7 @@
                         và thông tin khuyến mãi của Book
                         book, được gửi thẳng vào hộp thư đến
                         của bạn.</p>
-                    <form action="#" class="row">
+                    <form action="http://127.0.0.1:8000/api/send-mail" method="post" class="row">
                         <div class="col-8">
                             <input type="email" class="form-control mb-0" placeholder="Email Address" name="email"
                                 required>

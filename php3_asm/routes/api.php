@@ -17,7 +17,7 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 // sendmail
-Route::post('send-mail', [MailController::class,'sendMail']);
+Route::post('/send-mail', [MailController::class,'sendMail']);
 
 
 Route::get('/students-class', [StudentClassController::class, 'index']);
@@ -26,6 +26,7 @@ Route::post('/student-class', [StudentClassController::class, 'store']);
 
 Route::get('/students', [StudentController::class, 'index']);
 Route::get('/student/{id}', [StudentController::class, 'getById']);
+Route::get('/students/{keySearch}', [StudentController::class, 'findStudents']);
 Route::post('/student', [StudentController::class, 'store']);
 Route::put('/student/{id}', [StudentController::class, 'update']);
 Route::delete('/student/{id}', [StudentController::class, 'delete']);

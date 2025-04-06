@@ -9,19 +9,31 @@ function getStudents() {
     axios
         .get('http://127.0.0.1:8000/api/students')
         .then(response => {
+            console.log('allStudents ', response.data);
+            
             students.value = response.data
         })
         .catch(error => console.log(error))
 }
 
-const searchStudents = computed(() => {
-    return students.value.filter(student => {
-        const studentId = `HS00${student.id}`;
-        const searchLowerCase = searchTerm.value.toLowerCase();
-        return student.name.toLowerCase().includes(searchLowerCase) || 
-               studentId.toLowerCase().includes(searchLowerCase)
-    })
-})
+function findStudents(){
+    let key = searchTerm.value.toUpperCase()
+    
+    if(key.search(/HS0/) != -1){
+        key = key.replace(/HS/, '')
+        key = parseInt(key)
+    }
+    // console.log(key);
+    
+    axios
+        .get(`http://127.0.0.1:8000/api/students/${key}`)
+        .then(response => {
+            console.log(response.data);
+            
+            students.value = response.data
+        })
+        .catch(error => console.log(error))
+}
 
 onMounted(() => {
     getStudents()
@@ -33,7 +45,9 @@ onMounted(() => {
         <h3 class="mb-4">Bảng tổng hợp học viên</h3>
         <div class="mb-3 d-flex justify-content-between">
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStudentModal">Thêm</button>
-            <input v-model="searchTerm" type="text" placeholder="Tìm kiếm lớp..." class="form-control w-25" />
+            <form @submit.prevent="findStudents">
+                <input  v-model="searchTerm" type="text" placeholder="Tìm kiếm lớp..." class="form-control w-25 input-find" />
+            </form>
         </div>
         <div class="modal fade" id="addStudentModal" tabindex="-1" aria-labelledby="addStudentModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -79,7 +93,7 @@ onMounted(() => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(item, index) in searchStudents" :key="item.id">
+                    <tr v-for="(item, index) in students" :key="item.id">
                         <td>{{ index + 1 }}</td>
                         <td>HS00{{ item.id }}</td>
                         <td>{{ item.name }}</td>
@@ -100,6 +114,9 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.input-find{
+    width: 250px !important;
+}
 .modal-dialog-centered {
     display: flex;
     justify-content: center;

@@ -16,6 +16,16 @@ class StudentController extends Controller
         $student = App\Models\Student::find($id);
         return response()->json($student);
     }
+    function findStudents($keySearch){
+        // if(!is_numeric($keySearch)){
+        //     $searchItem = '%' . $keySearch . '%';
+        // }else{
+        //     $searchItem = $keySearch;
+        // }
+        $searchItem = '%' . $keySearch . '%';
+        $students = App\Models\Student::where('name', 'like', $searchItem)->orWhere('id', 'like', $searchItem)->get();
+        return response()->json($students, 200);
+    }
     function store(Request $request){
         $kq = App\Models\Student::create($request->all());
         // Hoặc bạn có thể trả về ID nếu cần sử dụng ở nơi khác

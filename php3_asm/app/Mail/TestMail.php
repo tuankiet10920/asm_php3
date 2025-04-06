@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Mails; // Change to the Mail namespace
+namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
 class TestMail extends Mailable
@@ -17,10 +19,15 @@ class TestMail extends Mailable
     {
         $this->details = $details;
     }
-
     public function build()
     {
-        return $this->subject('Test Email from Laravel')
-                    ->view('emails.emails'); // Use 'emails.emails' view
+        $this->subject('Test Email from Laravel')->view('emails.emails', [
+            'localBrand' => 'NTK Market of Anna Buildings',
+            'email' => $this->details['email']
+        ]);
+        return response()->json('successfully!');
     }
+
+
+
 }
