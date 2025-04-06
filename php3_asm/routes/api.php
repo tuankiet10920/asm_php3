@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\DegreeController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\StudentClassController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
@@ -14,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
+
+// sendmail
+Route::post('send-mail', [MailController::class,'sendMail']);
+
 
 Route::get('/students-class', [StudentClassController::class, 'index']);
 Route::get('/student-class/{id}', [StudentClassController::class, 'getById']);
