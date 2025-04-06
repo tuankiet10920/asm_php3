@@ -31,6 +31,7 @@ class Tutor extends Model
         'email',
         'phone',
         'momo_acc_num',
+        'password'
     ];
     public function classes()
     {

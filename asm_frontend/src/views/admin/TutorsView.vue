@@ -4,6 +4,7 @@ import axios from 'axios'
 
 const tutors = ref([])
 const searchTerm = ref('')
+const errorMessage = ref('')
 
 function getTutors() {
     axios
@@ -23,17 +24,41 @@ const searchTutors = computed(() => {
     })
 })
 
-const totalClasses = computed(() => {
-    return searchTutors.value.reduce((total, tutor) => total + (tutor.classes?.length || 0), 0)
-})
+function addTutor() {
+    const newTutor = {
+        name: tutorName.value,
+        email: tutorEmail.value,
+        phone: tutorPhone.value,
+    }
 
-const totalIncome = computed(() => {
-    return searchTutors.value.reduce((total, tutor) => {
-        return total + tutor.classes?.reduce((classTotal, classItem) => {
-            return classTotal + (classItem.type?.price || 0)
-        }, 0) || 0
-    }, 0)
-})
+    axios
+        .post('http://127.0.0.1:8000/api/tutor', newTutor)
+        .then(response => {
+            console.log('addTutor', response.data)
+            tutors.value.push(response.data)
+
+            // Close modal
+            const modal = document.getElementById('addTutorModal')
+            const modalInstance = bootstrap.Modal.getInstance(modal)
+            modalInstance.hide()
+
+            getTutors()
+        })
+        .catch(error => {
+            console.log(error)
+            errorMessage.value = 'Email đã được đăng ký'
+        })
+}
+
+function deleteTutor(id) {
+    axios
+        .delete(`http://127.0.0.1:8000/api/tutor/${id}`)
+        .then(response => {
+            console.log('deleteTutor', response.data);
+            tutors.value = tutors.value.filter(tutor => tutor.id !== id);
+        })
+        .catch(error => console.log(error))
+}
 
 onMounted(() => {
     getTutors()
@@ -44,38 +69,38 @@ onMounted(() => {
     <div class="bg-white rounded-2 p-4">
         <h3 class="mb-4">Bảng tổng hợp giảng viên (<code>tutor_summary</code>)</h3>
         <div class="mb-3 d-flex justify-content-between">
-<div class="modal fade" id="addStudentModal" tabindex="-1" aria-labelledby="addStudentModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addStudentModalLabel">Thêm học viên mới</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="studentName" class="form-label">Họ và Tên</label>
-                        <input type="text" class="form-control" id="studentName" placeholder="Nhập tên học viên" />
+            <div class="modal fade" id="addTutorModal" tabindex="-1" aria-labelledby="addTutorModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addTutorModalLabel">Thêm giảng viên mới</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="mb-3">
+                                    <label for="tutorName" class="form-label">Họ và Tên</label>
+                                    <input type="text" class="form-control" id="tutorName" placeholder="Nhập tên giảng viên" />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="tutorEmail" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="tutorEmail" placeholder="Nhập email" />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="tutorPhone" class="form-label">Số điện thoại</label>
+                                    <input type="text" class="form-control" id="tutorPhone" placeholder="Nhập số điện thoại" />
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="button" class="btn btn-primary" @click="addTutor">Lưu</button>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="studentEmail" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="studentEmail" placeholder="Nhập email" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="studentPhone" class="form-label">Số điện thoại</label>
-                        <input type="text" class="form-control" id="studentPhone" placeholder="Nhập số điện thoại" />
-                    </div>
-                </form>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-primary">Lưu</button>
-            </div>
-        </div>
-    </div>
-</div>
 
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStudentModal">Thêm</button>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTutorModal">Thêm</button>
             <input v-model="searchTerm" type="text" placeholder="Tìm kiếm..." class="form-control w-25" />
         </div>
         <div class="table-responsive">
@@ -107,7 +132,7 @@ onMounted(() => {
                         <td>{{ item.status || 'Chưa hoạt động' }}</td>
                         <td>
                             <button class="btn btn-warning btn-sm">Sửa</button>
-                            <button class="btn btn-danger btn-sm">Xóa</button>
+                            <button class="btn btn-danger btn-sm" @click="deleteTutor(item.id)">Xóa</button>
                         </td>
                     </tr>
                 </tbody>

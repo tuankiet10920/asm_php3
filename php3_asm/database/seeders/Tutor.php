@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class Tutor extends Seeder
 {
@@ -17,7 +18,7 @@ class Tutor extends Seeder
         // `email`, `phone`, `momo_acc_num`, `created_at`, `updated_at`
         $start_date = strtotime("2023-01-01"); // Ngày bắt đầu
         $end_date = strtotime("2024-12-31");   // Ngày kết thúc
-        for ($i=1; $i <= 40; $i++) { 
+        for ($i = 1; $i <= 40; $i++) {
             $random_timestamp = rand($start_date, $end_date);
             $random_date = date("Y-m-d", $random_timestamp); // Ví dụ định dạng YYYY-MM-DD
             DB::table('tutor')->insert([
@@ -28,6 +29,7 @@ class Tutor extends Seeder
                 'image' => "tutor$i.jpg",
                 'email' => "tutor$i@gmail.com",
                 'phone' => "0123123123",
+                'password' => Hash::make('password' . $i),
                 'momo_acc_num' => "0123123123",
                 'created_at' => now(),
                 'updated_at' => now()

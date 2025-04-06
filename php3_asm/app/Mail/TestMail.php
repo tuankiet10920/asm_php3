@@ -27,7 +27,4 @@ class TestMail extends Mailable
         ]);
         return response()->json('successfully!');
     }
-
-
-
 }

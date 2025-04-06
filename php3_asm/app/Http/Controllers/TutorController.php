@@ -28,4 +28,28 @@ class TutorController extends Controller
             'id' => $kq->id
         ], 201);
     }
+    function delete($id)
+    {
+        $billDetail = App\Models\Tutor::find($id);
+        if ($billDetail) {
+            try {
+                $billDetail->delete();
+                return response()->json([
+                    'code' => 200,
+                    'message' => 'Successfully!'
+                ], 200);
+            } catch (\Exception $e) {
+                return response()->json([
+                    'code' => 500,
+                    'message' => 'Không thể xóa giảng viên này!',
+                    'message-code' => $e->getMessage()
+                ]);
+            }
+        } else {
+            return response()->json([
+                'code' => 404,
+                'message' => 'Student not found with ID: ' . $id
+            ], 404);
+        }
+    }
 }

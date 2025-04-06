@@ -12,10 +12,9 @@ class Student extends Model
     protected $dates = ['birthday'];
     protected $attributes = [
         'name' => 'Student X',
-        'image' => 'studentx.jpg',
+        'image' => 'user.png',
         'birthday' => '1975-04-30',
         'address' => 'X street, X ward, X city',
-        'email' => 'studentx@gmail.com',
         'phone' => '0123456789',
     ];
     protected $fillable = [
@@ -25,5 +24,6 @@ class Student extends Model
         'address',
         'email',
         'phone',
+        'password'
     ];
 }

@@ -4,6 +4,7 @@ import axios from 'axios'
 
 const students = ref([])
 const searchTerm = ref('')
+const errorMessage = ref('')
 
 function getStudents() {
     axios
@@ -34,6 +35,43 @@ function findStudents(){
         })
         .catch(error => console.log(error))
 }
+function addStudent() {
+    const newStudent = {
+        name: studentName.value,
+        email: studentEmail.value,
+        phone: studentPhone.value,
+    }
+
+    axios
+        .post('http://127.0.0.1:8000/api/student', newStudent)
+        .then(response => {
+            console.log('addStudent', response.data)
+            students.value.push(response.data)
+
+            // Đóng modal
+            const modal = document.getElementById('addStudentModal')
+            const modalInstance = bootstrap.Modal.getInstance(modal)
+            modalInstance.hide() // Đóng modal
+
+            getStudents()
+        })
+        .catch(error =>{ console.log(error),
+        errorMessage.value = 'Email đã được đăng ký'
+        })
+}
+function deleteStudent(id) {
+    axios
+        .delete(`http://127.0.0.1:8000/api/student/${id}`)
+        .then(response => {
+            console.log('deleteStudent', response.data);
+            students.value = students.value.filter(student => student.id !== id);
+        })
+        .catch(error => 
+            console.log(error))
+
+}
+
+
 
 onMounted(() => {
     getStudents()
@@ -46,9 +84,11 @@ onMounted(() => {
         <div class="mb-3 d-flex justify-content-between">
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStudentModal">Thêm</button>
             <form @submit.prevent="findStudents">
-                <input  v-model="searchTerm" type="text" placeholder="Tìm kiếm lớp..." class="form-control w-25 input-find" />
+                <input v-model="searchTerm" type="text" placeholder="Tìm kiếm lớp..." class="form-control w-25 input-find" />
             </form>
         </div>
+
+        <!-- Modal thêm học viên -->
         <div class="modal fade" id="addStudentModal" tabindex="-1" aria-labelledby="addStudentModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -57,28 +97,33 @@ onMounted(() => {
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form>
+                        <form @submit.prevent="addStudent">
                             <div class="mb-3">
                                 <label for="studentName" class="form-label">Họ và Tên</label>
-                                <input type="text" class="form-control" id="studentName" placeholder="Nhập tên học viên" />
+                                <input v-model="studentName" type="text" class="form-control" id="studentName" placeholder="Nhập tên học viên" required />
                             </div>
                             <div class="mb-3">
-                                <label for="studentEmail" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="studentEmail" placeholder="Nhập email" />
-                            </div>
+                            <label for="studentEmail" class="form-label">Email</label> <span v-if="errorMessage"  style="font-size: 0.875rem;"> {{ errorMessage }}</span>
+                            <input v-model="studentEmail" type="email" class="form-control" id="studentEmail" placeholder="Nhập email" :class="{'is-invalid': errorMessage}" required
+    />
+</div>
+
+
                             <div class="mb-3">
                                 <label for="studentPhone" class="form-label">Số điện thoại</label>
-                                <input type="text" class="form-control" id="studentPhone" placeholder="Nhập số điện thoại" />
+                                <input v-model="studentPhone" type="text" class="form-control" id="studentPhone" placeholder="Nhập số điện thoại" required />
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                <button type="submit" class="btn btn-primary">Thêm</button>
                             </div>
                         </form>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                        <button type="button" class="btn btn-primary">Lưu</button>
-                    </div>
-                </div>
+                </div>  
             </div>
         </div>
+
+        <!-- Bảng học viên -->
         <div class="table-responsive">
             <table class="table table-bordered">
                 <thead>
@@ -104,7 +149,7 @@ onMounted(() => {
                         <td>{{ item.phone }}</td>
                         <td>
                             <button class="btn btn-warning btn-sm">Sửa</button>
-                            <button class="btn btn-danger btn-sm">Xóa</button>
+                            <button class="btn btn-danger btn-sm" @click="deleteStudent(item.id)">Xóa</button>
                         </td>
                     </tr>
                 </tbody>
@@ -112,6 +157,7 @@ onMounted(() => {
         </div>
     </div>
 </template>
+
 
 <style scoped>
 .input-find{
