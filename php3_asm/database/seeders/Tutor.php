@@ -26,7 +26,7 @@ class Tutor extends Seeder
                 'birthday' => $random_date,
                 'education_level' => "12/12",
                 'address' => "XX street, X ward, X city",
-                'image' => "tutor$i.jpg",
+                'image' => "tutor.png",
                 'email' => "tutor$i@gmail.com",
                 'phone' => "0123123123",
                 'password' => Hash::make('password' . $i),

@@ -12,7 +12,7 @@ class Student extends Model
     protected $dates = ['birthday'];
     protected $attributes = [
         'name' => 'Student X',
-        'image' => 'user.png',
+        'image' => 'student.png',
         'birthday' => '1975-04-30',
         'address' => 'X street, X ward, X city',
         'phone' => '0123456789',

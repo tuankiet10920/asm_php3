@@ -5,36 +5,37 @@ import axios from 'axios'
 const students = ref([])
 const searchTerm = ref('')
 const errorMessage = ref('')
-
+// Lưu thông tin học viên được chọn
+const selectedStudent = ref('')
 function getStudents() {
     axios
         .get('http://127.0.0.1:8000/api/students')
         .then(response => {
             console.log('allStudents ', response.data);
-            
             students.value = response.data
         })
         .catch(error => console.log(error))
 }
 
-function findStudents(){
+// Tìm kiếm học viên
+function findStudents() {
     let key = searchTerm.value.toUpperCase()
     
-    if(key.search(/HS0/) != -1){
-        key = key.replace(/HS/, '')
-        key = parseInt(key)
+    if (key.startsWith('HS')) {
+        key = key.replace('HS', '');
+        key = parseInt(key); 
     }
-    // console.log(key);
     
     axios
         .get(`http://127.0.0.1:8000/api/students/${key}`)
         .then(response => {
             console.log(response.data);
-            
             students.value = response.data
         })
         .catch(error => console.log(error))
 }
+
+// Thêm học viên
 function addStudent() {
     const newStudent = {
         name: studentName.value,
@@ -55,10 +56,13 @@ function addStudent() {
 
             getStudents()
         })
-        .catch(error =>{ console.log(error),
-        errorMessage.value = 'Email đã được đăng ký'
+        .catch(error =>{ 
+            console.log(error)
+            errorMessage.value = 'Email đã được đăng ký'
         })
 }
+
+// Xóa học viên
 function deleteStudent(id) {
     axios
         .delete(`http://127.0.0.1:8000/api/student/${id}`)
@@ -66,9 +70,31 @@ function deleteStudent(id) {
             console.log('deleteStudent', response.data);
             students.value = students.value.filter(student => student.id !== id);
         })
-        .catch(error => 
-            console.log(error))
+        .catch(error => console.log(error))
+}
 
+
+// Cập nhật thông tin học viên
+function updateStudent() {
+    axios
+        .put(`http://127.0.0.1:8000/api/student/${selectedStudent.value.id}`, selectedStudent.value)
+        .then(response => {
+            console.log('updateStudent', response.data)
+            getStudents()  // Cập nhật lại danh sách học viên
+            const modal = document.getElementById('editStudentModal')
+            const modalInstance = bootstrap.Modal.getInstance(modal)
+            modalInstance.hide()  // Đóng modal
+        })
+        .catch(error => {console.log(error)
+            errorMessage.value =  'Email đã được đăng ký'
+        })
+}
+// gán giá trị 
+function editStudent(id) {
+    const student = students.value.find(student => student.id === id)
+    if (student) {
+        selectedStudent.value = { ...student }
+    }
 }
 
 
@@ -77,14 +103,13 @@ onMounted(() => {
     getStudents()
 })
 </script>
-
 <template>
     <div class="bg-white rounded-2 p-4">
         <h3 class="mb-4">Bảng tổng hợp học viên</h3>
         <div class="mb-3 d-flex justify-content-between">
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStudentModal">Thêm</button>
             <form @submit.prevent="findStudents">
-                <input v-model="searchTerm" type="text" placeholder="Tìm kiếm lớp..." class="form-control w-25 input-find" />
+                <input v-model="searchTerm" type="text" placeholder="Tìm kiếm sinh viên..." class="form-control w-25 input-find" />
             </form>
         </div>
 
@@ -103,15 +128,13 @@ onMounted(() => {
                                 <input v-model="studentName" type="text" class="form-control" id="studentName" placeholder="Nhập tên học viên" required />
                             </div>
                             <div class="mb-3">
-                            <label for="studentEmail" class="form-label">Email</label> <span v-if="errorMessage"  style="font-size: 0.875rem;"> {{ errorMessage }}</span>
-                            <input v-model="studentEmail" type="email" class="form-control" id="studentEmail" placeholder="Nhập email" :class="{'is-invalid': errorMessage}" required
-    />
-</div>
-
-
+                                <label for="studentEmail" class="form-label">Email</label> 
+                                <span v-if="errorMessage" style="font-size: 0.875rem;"> {{ errorMessage }}</span>
+                                <input v-model="studentEmail" type="email" class="form-control" id="studentEmail" placeholder="Nhập email" :class="{'is-invalid': errorMessage}" required />
+                            </div>
                             <div class="mb-3">
                                 <label for="studentPhone" class="form-label">Số điện thoại</label>
-                                <input v-model="studentPhone" type="text" class="form-control" id="studentPhone" placeholder="Nhập số điện thoại" required />
+                                <input v-model="studentPhone" type="tel" class="form-control" id="studentPhone" placeholder="Nhập số điện thoại" required pattern="^[0-9]{10}$" />
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
@@ -142,13 +165,11 @@ onMounted(() => {
                         <td>{{ index + 1 }}</td>
                         <td>HS00{{ item.id }}</td>
                         <td>{{ item.name }}</td>
-                        <td>
-                            <img :src="item.image" alt="Ảnh học viên" class="rounded w-auto mx-auto d-block" style="max-width: 80px;" />
-                        </td>
+                        <td><img :src="'http://localhost:8000/images/students/'+item.image" alt="image" class="student-image" /></td>
                         <td>{{ item.email }}</td>
                         <td>{{ item.phone }}</td>
                         <td>
-                            <button class="btn btn-warning btn-sm">Sửa</button>
+                            <button class="btn btn-warning btn-sm" @click="editStudent(item.id)" data-bs-toggle="modal" data-bs-target="#editStudentModal">Sửa</button>
                             <button class="btn btn-danger btn-sm" @click="deleteStudent(item.id)">Xóa</button>
                         </td>
                     </tr>
@@ -156,11 +177,44 @@ onMounted(() => {
             </table>
         </div>
     </div>
+
+    <!-- Modal sửa học viên -->
+<div class="modal fade" id="editStudentModal" tabindex="-1" aria-labelledby="editStudentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editStudentModalLabel">Sửa thông tin học viên</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Chỉ hiển thị form khi selectedStudent không phải là null -->
+                <form v-if="selectedStudent" @submit.prevent="updateStudent">
+                    <div class="mb-3">
+                        <label for="editStudentName" class="form-label">Họ và Tên</label>
+                        <input v-model="selectedStudent.name" type="text" class="form-control" id="editStudentName" placeholder="Nhập tên học viên" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="editStudentEmail" class="form-label">Email</label>
+                        <span v-if="errorMessage" style="font-size: 0.875rem;"> {{ errorMessage }}</span>
+                        <input v-model="selectedStudent.email" type="email" class="form-control" id="editStudentEmail" placeholder="Nhập email" :class="{'is-invalid': errorMessage}" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="editStudentPhone" class="form-label">Số điện thoại</label>
+                        <input v-model="selectedStudent.phone" type="tel" class="form-control" id="editStudentPhone" placeholder="Nhập số điện thoại" required pattern="^[0-9]{10}$" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="submit" class="btn btn-primary">Cập nhật</button>
+                    </div>
+                </form>
+            </div>
+        </div>  
+    </div>
+</div>
+
 </template>
-
-
 <style scoped>
-.input-find{
+.input-find {
     width: 250px !important;
 }
 .modal-dialog-centered {
@@ -194,5 +248,11 @@ onMounted(() => {
 .table td, .table th {
     text-align: center;
     vertical-align: middle;
+}
+
+.student-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
 }
 </style>

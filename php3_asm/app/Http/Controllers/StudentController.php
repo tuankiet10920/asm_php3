@@ -8,15 +8,18 @@ use App;
 
 class StudentController extends Controller
 {
-    function index(){
+    function index()
+    {
         $students = App\Models\Student::all();
         return response()->json($students);
     }
-    function getById($id){
+    function getById($id)
+    {
         $student = App\Models\Student::find($id);
         return response()->json($student);
     }
-    function findStudents($keySearch){
+    function findStudents($keySearch)
+    {
         // if(!is_numeric($keySearch)){
         //     $searchItem = '%' . $keySearch . '%';
         // }else{
@@ -26,7 +29,8 @@ class StudentController extends Controller
         $students = App\Models\Student::where('name', 'like', $searchItem)->orWhere('id', 'like', $searchItem)->get();
         return response()->json($students, 200);
     }
-    function store(Request $request){
+    function store(Request $request)
+    {
         $kq = App\Models\Student::create($request->all());
         // Hoặc bạn có thể trả về ID nếu cần sử dụng ở nơi khác
         return response()->json([
@@ -35,35 +39,51 @@ class StudentController extends Controller
             'id' => $kq->id
         ], 201);
     }
-    function update($id, Request $request){
-        $billDetail = App\Models\Student::where('id', $id)->first();
-        if($billDetail){
+    public function update($id, Request $request)
+    {
+        $student = App\Models\Student::where('id', $id)->first();
+
+        if ($student) {
+            // Kiểm tra nếu có email và email không trùng với email của học viên hiện tại
+            if ($request->has('email') && $request->email !== $student->email) {
+                $existingStudent = App\Models\Student::where('email', $request->email)->first();
+                if ($existingStudent) {
+                    return response()->json([
+                        'code' => 400,
+                        'message' => 'Email đã tồn tại'
+                    ], 400);
+                }
+            }
+
             try {
-                $billDetail->update($request->all());
+                $student->update($request->all());
+
                 return response()->json([
                     'code' => '200',
-                    'message' => 'Update success',
+                    'message' => 'Cập nhật thành công',
                     'id' => $id,
-                    'data' => $billDetail
+                    'data' => $student
                 ], 200);
             } catch (\Exception $e) {
                 return response()->json([
                     'code' => 500,
-                    'message' => 'Updating student error ' . $e->getMessage()
+                    'message' => 'Lỗi khi cập nhật học viên ' . $e->getMessage()
                 ], 500);
             }
-        }else{
+        } else {
             return response()->json([
                 'code' => 404,
-                'message' => 'Student not found with ID: ' . $id
+                'message' => 'Không tìm thấy học viên với ID: ' . $id
             ], 404);
         }
     }
-    function delete($id){
-        $billDetail = App\Models\Student::find($id);
-        if($billDetail){
+
+    function delete($id)
+    {
+        $student = App\Models\Student::find($id);
+        if ($student) {
             try {
-                $billDetail->delete();
+                $student->delete();
                 return response()->json([
                     'code' => 200,
                     'message' => 'Successfully!'
@@ -75,7 +95,7 @@ class StudentController extends Controller
                     'message-code' => $e->getMessage()
                 ]);
             }
-        }else{
+        } else {
             return response()->json([
                 'code' => 404,
                 'message' => 'Student not found with ID: ' . $id

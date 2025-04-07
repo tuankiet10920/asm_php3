@@ -58,4 +58,42 @@ class TutorController extends Controller
             ], 404);
         }
     }
+    public function update($id, Request $request)
+    {
+        $stutor = App\Models\Tutor::where('id', $id)->first();
+
+        if ($stutor) {
+            // Kiểm tra nếu có email và email không trùng với email của học viên hiện tại
+            if ($request->has('email') && $request->email !== $stutor->email) {
+                $existingTutor = App\Models\Tutor::where('email', $request->email)->first();
+                if ($existingTutor) {
+                    return response()->json([
+                        'code' => 400,
+                        'message' => 'Email đã tồn tại'
+                    ], 400);
+                }
+            }
+
+            try {
+                $stutor->update($request->all());
+
+                return response()->json([
+                    'code' => '200',
+                    'message' => 'Cập nhật thành công',
+                    'id' => $id,
+                    'data' => $stutor
+                ], 200);
+            } catch (\Exception $e) {
+                return response()->json([
+                    'code' => 500,
+                    'message' => 'Lỗi khi cập nhật học viên ' . $e->getMessage()
+                ], 500);
+            }
+        } else {
+            return response()->json([
+                'code' => 404,
+                'message' => 'Không tìm thấy học viên với ID: ' . $id
+            ], 404);
+        }
+    }
 }

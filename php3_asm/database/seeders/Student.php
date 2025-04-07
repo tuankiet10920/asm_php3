@@ -23,7 +23,7 @@ class Student extends Seeder
             $random_date = date("Y-m-d", $random_timestamp);
             DB::table('student')->insert([
                 'name' => 'Student ' . $i,
-                'image' => "tutor$i.jpg",
+                'image' => "student.png",
                 'birthday' => $random_date,
                 'address' => "XX street, X ward, X city",
                 'email' => "student$i@gmail.com",

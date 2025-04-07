@@ -41,6 +41,7 @@ Route::get('/tutors', [TutorController::class, 'index']);
 Route::get('/tutor/{id}', [TutorController::class, 'getById']);
 Route::get('/tutors/{keySearch}', [TutorController::class, 'findTutors']);
 Route::post('/tutor', [TutorController::class, 'store']);
+Route::put('/tutor/{id}', [TutorController::class, 'update']);
 Route::delete('/tutor/{id}', [TutorController::class, 'delete']);
 
 Route::get('/subjects', [SubjectController::class, 'index']);

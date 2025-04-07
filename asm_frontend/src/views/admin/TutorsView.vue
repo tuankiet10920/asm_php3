@@ -1,11 +1,14 @@
+
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
-const tutors = ref([])
-const searchTerm = ref('')
-const errorMessage = ref('')
+const tutors = ref([])  // Danh sách giảng viên
+const searchTerm = ref('')  // Từ khóa tìm kiếm
+const errorMessage = ref('')  // Thông báo lỗi
+const selectedTutor = ref('')
 
+// Lấy danh sách giảng viên
 function getTutors() {
     axios
         .get('http://127.0.0.1:8000/api/tutors')
@@ -15,15 +18,24 @@ function getTutors() {
         .catch(error => console.log(error))
 }
 
-const searchTutors = computed(() => {
-    return tutors.value.filter(tutor => {
-        const tutorID = `GV00${tutor.id}`;
-        const searchLowerCase = searchTerm.value.toLowerCase();
-        return tutor.name.toLowerCase().includes(searchLowerCase) || 
-               tutorID.toLowerCase().includes(searchLowerCase)
-    })
-})
+// Tìm kiếm giảng viên
+function findTutors() {
+    let key = searchTerm.value.toUpperCase()
 
+    if (key.startsWith('GV')) {
+        key = key.replace('GV', '')
+        key = parseInt(key)
+    }
+
+    axios
+        .get(`http://127.0.0.1:8000/api/tutors/${key}`)
+        .then(response => {
+            tutors.value = response.data
+        })
+        .catch(error => console.log(error))
+}
+
+// Thêm giảng viên
 function addTutor() {
     const newTutor = {
         name: tutorName.value,
@@ -34,30 +46,52 @@ function addTutor() {
     axios
         .post('http://127.0.0.1:8000/api/tutor', newTutor)
         .then(response => {
-            console.log('addTutor', response.data)
             tutors.value.push(response.data)
 
-            // Close modal
             const modal = document.getElementById('addTutorModal')
             const modalInstance = bootstrap.Modal.getInstance(modal)
-            modalInstance.hide()
+            modalInstance.hide()  // Đóng modal
+            errorMessage.value = ''
 
             getTutors()
         })
-        .catch(error => {
-            console.log(error)
+        .catch(error =>{ 
             errorMessage.value = 'Email đã được đăng ký'
         })
 }
 
+// Xóa giảng viên
 function deleteTutor(id) {
     axios
         .delete(`http://127.0.0.1:8000/api/tutor/${id}`)
         .then(response => {
-            console.log('deleteTutor', response.data);
             tutors.value = tutors.value.filter(tutor => tutor.id !== id);
         })
         .catch(error => console.log(error))
+}
+
+// Cập nhật thông tin giảng viên
+function updateTutor() {
+    axios
+        .put(`http://127.0.0.1:8000/api/tutor/${selectedTutor.value.id}`, selectedTutor.value)
+        .then(response => {
+            getTutors()  // Cập nhật lại danh sách giảng viên
+            const modal = document.getElementById('editTutorModal')
+            const modalInstance = bootstrap.Modal.getInstance(modal)
+            modalInstance.hide()  // Đóng modal
+            errorMessage.value = ''
+        })
+        .catch(error => {
+            errorMessage.value =  'Email đã được đăng ký'
+        })
+}
+
+// Chỉnh sửa thông tin giảng viên
+function editTutor(id) {
+    const tutor = tutors.value.find(tutor => tutor.id === id)
+    if (tutor) {
+        selectedTutor.value = { ...tutor }
+    }
 }
 
 onMounted(() => {
@@ -65,44 +99,51 @@ onMounted(() => {
 })
 </script>
 
+
 <template>
     <div class="bg-white rounded-2 p-4">
-        <h3 class="mb-4">Bảng tổng hợp giảng viên (<code>tutor_summary</code>)</h3>
+        <h3 class="mb-4">Bảng tổng hợp giảng viên</h3>
         <div class="mb-3 d-flex justify-content-between">
-            <div class="modal fade" id="addTutorModal" tabindex="-1" aria-labelledby="addTutorModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="addTutorModalLabel">Thêm giảng viên mới</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form>
-                                <div class="mb-3">
-                                    <label for="tutorName" class="form-label">Họ và Tên</label>
-                                    <input type="text" class="form-control" id="tutorName" placeholder="Nhập tên giảng viên" />
-                                </div>
-                                <div class="mb-3">
-                                    <label for="tutorEmail" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="tutorEmail" placeholder="Nhập email" />
-                                </div>
-                                <div class="mb-3">
-                                    <label for="tutorPhone" class="form-label">Số điện thoại</label>
-                                    <input type="text" class="form-control" id="tutorPhone" placeholder="Nhập số điện thoại" />
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                            <button type="button" class="btn btn-primary" @click="addTutor">Lưu</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTutorModal">Thêm</button>
-            <input v-model="searchTerm" type="text" placeholder="Tìm kiếm..." class="form-control w-25" />
+            <form @submit.prevent="findTutors">
+                <input v-model="searchTerm" type="text" placeholder="Tìm kiếm giảng viên..." class="form-control w-25 input-find" />
+            </form>
         </div>
+
+        <!-- Modal thêm giảng viên -->
+        <div class="modal fade" id="addTutorModal" tabindex="-1" aria-labelledby="addTutorModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addTutorModalLabel">Thêm giảng viên mới</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form @submit.prevent="addTutor">
+                            <div class="mb-3">
+                                <label for="tutorName" class="form-label">Họ và Tên</label>
+                                <input v-model="tutorName" type="text" class="form-control" id="tutorName" placeholder="Nhập tên giảng viên" required />
+                            </div>
+                            <div class="mb-3">
+                                <label for="tutorEmail" class="form-label">Email</label>
+                                <span v-if="errorMessage" style="font-size: 0.875rem;"> {{ errorMessage }}</span>
+                                <input v-model="tutorEmail" type="email" class="form-control" id="tutorEmail" placeholder="Nhập email" :class="{'is-invalid': errorMessage}" required />
+                            </div>
+                            <div class="mb-3">
+                                <label for="tutorPhone" class="form-label">Số điện thoại</label>
+                                <input v-model="tutorPhone" type="tel" class="form-control" id="tutorPhone" placeholder="Nhập số điện thoại" required pattern="^[0-9]{10}$" />
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                <button type="submit" class="btn btn-primary">Thêm</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>  
+            </div>
+        </div>
+
+        <!-- Bảng giảng viên -->
         <div class="table-responsive">
             <table class="table table-bordered">
                 <thead>
@@ -120,18 +161,18 @@ onMounted(() => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(item, index) in searchTutors" :key="item.id">
+                    <tr v-for="(item, index) in tutors" :key="item.id">
                         <td>{{ index + 1 }}</td>
                         <td>GV00{{ item.id }}</td>
                         <td>{{ item.name }}</td>
-                        <td><img :src="item.image" alt="image" class="tutor-image" /></td>
+                        <td><img :src="'http://localhost:8000/images/tutors/'+item.image" alt="image" class="tutor-image" /></td>
                         <td>{{ item.email }}</td>
                         <td>{{ item.phone }}</td>
                         <td>{{ item.classes?.length || 0 }}</td>
                         <td>{{ item.total_income || 0 }}</td>
                         <td>{{ item.status || 'Chưa hoạt động' }}</td>
                         <td>
-                            <button class="btn btn-warning btn-sm">Sửa</button>
+                            <button class="btn btn-warning btn-sm" @click="editTutor(item.id)" data-bs-toggle="modal" data-bs-target="#editTutorModal">Sửa</button>
                             <button class="btn btn-danger btn-sm" @click="deleteTutor(item.id)">Xóa</button>
                         </td>
                     </tr>
@@ -139,9 +180,46 @@ onMounted(() => {
             </table>
         </div>
     </div>
+
+    <!-- Modal sửa giảng viên -->
+    <div class="modal fade" id="editTutorModal" tabindex="-1" aria-labelledby="editTutorModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editTutorModalLabel">Sửa thông tin giảng viên</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form v-if="selectedTutor" @submit.prevent="updateTutor">
+                        <div class="mb-3">
+                            <label for="editTutorName" class="form-label">Họ và Tên</label>
+                            <input v-model="selectedTutor.name" type="text" class="form-control" id="editTutorName" placeholder="Nhập tên giảng viên" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="editTutorEmail" class="form-label">Email</label>
+                            <span v-if="errorMessage" style="font-size: 0.875rem;"> {{ errorMessage }}</span>
+                            <input v-model="selectedTutor.email" type="email" class="form-control" id="editTutorEmail" placeholder="Nhập email" :class="{'is-invalid': errorMessage}" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="editTutorPhone" class="form-label">Số điện thoại</label>
+                            <input v-model="selectedTutor.phone" type="tel" class="form-control" id="editTutorPhone" placeholder="Nhập số điện thoại" required pattern="^[0-9]{10}$" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary">Cập nhật</button>
+                        </div>
+                    </form>
+                </div>
+            </div>  
+        </div>
+    </div>
+
 </template>
 
 <style scoped>
+.input-find {
+    width: 250px !important;
+}
 .modal-dialog-centered {
     display: flex;
     justify-content: center;
@@ -179,6 +257,5 @@ onMounted(() => {
     width: 50px;
     height: 50px;
     object-fit: cover;
-    border-radius: 50%;
 }
 </style>

@@ -14,7 +14,7 @@ class Classes extends Model
         'status' => '1975-04-30',
         'qty_students' => 'Thac Si',
         'id_type' => 'Duong X, phuong X, quan X, thanh pho X',
-        'id_subject' => 'tutorx.jpg',
+        'id_subject' => 'tutor.png',
         'id_tutor' => 'studentx@gmail.com',
     ];
     protected static function boot()

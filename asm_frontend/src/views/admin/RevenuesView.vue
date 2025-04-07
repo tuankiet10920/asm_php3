@@ -1,5 +1,5 @@
 <template>
-    <div class="mt-5 bg-white rounded-2 p-4">
+    <div class="bg-white rounded-2 p-4">
         <h3 class="mb-4">Bảng tổng hợp lớp học (<code>class_summary</code>)</h3>
         <button class="btn btn-primary mb-3">Thêm</button>
         <div class="table-responsive">

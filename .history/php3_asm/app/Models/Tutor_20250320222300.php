@@ -15,7 +15,7 @@ class Tutor extends Model
         'birthday' => '1975-04-30',
         'education_level' => '12/12',
         'address' => 'Duong X, phuong X, quan X, thanh pho X',
-        'image' => 'tutorx.jpg',
+        'image' => 'tutor.png',
         'email' => 'studentx@gmail.com',
         'phone' => '0123456789',
         'momo_acc_num' => '0123456789',

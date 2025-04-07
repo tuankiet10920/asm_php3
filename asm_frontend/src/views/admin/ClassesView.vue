@@ -40,7 +40,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="mt-5 bg-white rounded-2 p-4">
+    <div class="bg-white rounded-2 p-4">
         <h3 class="mb-4">Bảng tổng hợp lớp học (<code>class_summary</code>)</h3>
 
         <div class="mb-3 d-flex justify-content-between">
