@@ -18,6 +18,12 @@ class TutorController extends Controller
         $tutor = App\Models\Tutor::find($id);
         return response()->json($tutor);
     }
+    function findTutors($keySearch)
+    {
+        $searchItem = '%' . $keySearch . '%';
+        $tutors = App\Models\Tutor::where('name', 'like', $searchItem)->orWhere('id', 'like', $searchItem)->get();
+        return response()->json($tutors, 200);
+    }
     function store(Request $request)
     {
         $kq = App\Models\Tutor::create($request->all());
@@ -30,10 +36,10 @@ class TutorController extends Controller
     }
     function delete($id)
     {
-        $billDetail = App\Models\Tutor::find($id);
-        if ($billDetail) {
+        $tutor = App\Models\Tutor::find($id);
+        if ($tutor) {
             try {
-                $billDetail->delete();
+                $tutor->delete();
                 return response()->json([
                     'code' => 200,
                     'message' => 'Successfully!'
@@ -48,7 +54,7 @@ class TutorController extends Controller
         } else {
             return response()->json([
                 'code' => 404,
-                'message' => 'Student not found with ID: ' . $id
+                'message' => 'Không tồn tại giảng viên: ' . $id
             ], 404);
         }
     }
