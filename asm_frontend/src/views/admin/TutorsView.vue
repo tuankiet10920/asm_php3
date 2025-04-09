@@ -6,7 +6,9 @@ import axios from 'axios'
 const tutors = ref([])  // Danh sách giảng viên
 const searchTerm = ref('')  // Từ khóa tìm kiếm
 const errorMessage = ref('')  // Thông báo lỗi
-const selectedTutor = ref('')
+const selectedTutor = ref({})
+
+const statusOptions = ['Chờ xét duyệt', 'Đã xét duyệt', 'Đang hoạt động', 'Ngừng hoạt động']
 
 // Lấy danh sách giảng viên
 function getTutors() {
@@ -96,6 +98,7 @@ function editTutor(id) {
 
 onMounted(() => {
     getTutors()
+    
 })
 </script>
 
@@ -204,6 +207,20 @@ onMounted(() => {
                             <label for="editTutorPhone" class="form-label">Số điện thoại</label>
                             <input v-model="selectedTutor.phone" type="tel" class="form-control" id="editTutorPhone" placeholder="Nhập số điện thoại" required pattern="^[0-9]{10}$" />
                         </div>
+                        <div class="mb-3">
+                            <label for="editTutorstatus" class="form-label">Trạng thái</label>
+                            <select v-model="selectedTutor.status" class="form-control" id="editTutorstatus" required>
+                            <option 
+                                v-for="status in statusOptions" 
+                                :value="status"
+                                :disabled="status === 'Chờ xét duyệt' && selectedTutor.status !== 'Chờ xét duyệt'"
+                            >
+                                {{ status }}
+                            </option>
+                        </select>
+
+                             </div>
+
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                             <button type="submit" class="btn btn-primary">Cập nhật</button>

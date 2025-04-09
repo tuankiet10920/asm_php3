@@ -19,6 +19,7 @@ class Tutor extends Model
         'image' => 'tutor.png',
         'email' => 'studentx@gmail.com',
         'phone' => '0123456789',
+        'status' => 'Chờ xét duyệt',
         'momo_acc_num' => '0123456789',
     ];
 
@@ -31,6 +32,7 @@ class Tutor extends Model
         'email',
         'phone',
         'momo_acc_num',
+        'status',
         'password'
     ];
     public function classes()
