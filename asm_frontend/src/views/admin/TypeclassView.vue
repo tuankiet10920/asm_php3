@@ -6,7 +6,7 @@ import axios from 'axios'
 const typeclass = ref([])  // Danh sách lớp
 const searchTerm = ref('')  // Từ khóa tìm kiếm
 const errorMessage = ref('')  // Thông báo lỗi
-const selectedTutor = ref('')
+const selectedTypeclass = ref('')
 
 // Lấy danh sách lớp
 function getTypeclass() {
@@ -46,7 +46,7 @@ function addTypeclass() {
     axios
         .post('http://127.0.0.1:8000/api/type-class', newTypeclass)
         .then(response => {
-            tutors.value.push(response.data)
+            typeclass.value.push(response.data)
 
             const modal = document.getElementById('addTypeclassModal')
             const modalInstance = bootstrap.Modal.getInstance(modal)
@@ -104,7 +104,7 @@ onMounted(() => {
     <div class="bg-white rounded-2 p-4">
         <h3 class="mb-4">Bảng tổng hợp lớp</h3>
         <div class="mb-3 d-flex justify-content-between">
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTutorModal">Thêm</button>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTypeclassModal">Thêm</button>
             <form @submit.prevent="findTypeclass">
                 <input v-model="searchTerm" type="text" placeholder="Tìm kiếm lớp..." class="form-control w-25 input-find" />
             </form>
@@ -157,8 +157,8 @@ onMounted(() => {
                         <td>{{ item.price }}</td>
                         <td>{{ item.status || 'Chưa hoạt động' }}</td>
                         <td>
-                            <button class="btn btn-warning btn-sm" @click="editTypeclass(item.id)" data-bs-toggle="modal" data-bs-target="#editTutorModal">Sửa</button>
-                            <button class="btn btn-danger btn-sm" @click="deleteTypeclass(item.id)">Xóa</button>
+                            <button class="btn btn-warning btn-sm" @click="editTypeclass(item.id)" data-bs-toggle="modal" data-bs-target="#editTypeclassModal">Sửa</button>
+                            <button class="btn btn-danger btn-sm" @click="deleteType(item.id)">Xóa</button>
                         </td>
                     </tr>
                 </tbody>
