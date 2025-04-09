@@ -18,4 +18,8 @@ class Degree extends Model
         'image',
         'id_tutor',
     ];
+    public function tutor()
+    {
+        return $this->belongsTo('App\Models\Tutor', 'id_tutor');
+    }
 }
