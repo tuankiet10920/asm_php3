@@ -76,6 +76,12 @@ const router = createRouter({
 
       name: 'Feedbacks',
       component: () => import('../views/admin/FeedbacksView.vue'),
+    },
+    {
+      path: '/typeclass',
+
+      name: 'typeclass',
+      component: () => import('../views/admin/TypeclassView.vue'),
     }
   ],
 })
