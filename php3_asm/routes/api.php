@@ -50,9 +50,11 @@ Route::post('/subject', [SubjectController::class, 'store']);
 Route::put('/subject/{id}', [SubjectController::class, 'update']);
 Route::delete('/subject/{id}', [SubjectController::class, 'delete']);
 
-Route::get('/degrees', [DegreeController::class, 'index']);
-Route::get('/degree/{id}', [DegreeController::class, 'getById']);
-Route::post('/degree', [DegreeController::class, 'store']);
+// Route::get('/degrees', [DegreeController::class, 'index']);
+// Route::get('/degree/{id}', [DegreeController::class, 'getById']);
+// Route::post('/degree', [DegreeController::class, 'store']);
+// Route::put('/degree/{id}', [DegreeController::class, 'update']);
+// Route::delete('/degree/{id}', [DegreeController::class, 'delete']);
 
 Route::get('/classes', [ClassController::class, 'index']);
 Route::get('/class/{id}', [ClassController::class, 'getById']);
