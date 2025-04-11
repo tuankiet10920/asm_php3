@@ -4,7 +4,7 @@ import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
 const tutors = ref([])  // Danh sách giảng viên
-const searchTerm = ref('')  // Từ khóa tìm kiếm
+const searchTerm = ref('') 
 const errorMessage = ref('')  // Thông báo lỗi
 const selectedTutor = ref({})
 
@@ -77,7 +77,7 @@ function updateTutor() {
     axios
         .put(`http://127.0.0.1:8000/api/tutor/${selectedTutor.value.id}`, selectedTutor.value)
         .then(response => {
-            getTutors()  // Cập nhật lại danh sách giảng viên
+            getTutors()  
             const modal = document.getElementById('editTutorModal')
             const modalInstance = bootstrap.Modal.getInstance(modal)
             modalInstance.hide()  // Đóng modal
