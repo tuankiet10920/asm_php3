@@ -14,10 +14,8 @@ return new class extends Migration
         Schema::create('class', function (Blueprint $table) {
             $table->id();
             $table->dateTime('time_start')->nullable();
-            $table->boolean('status')->default(0);
-            $table->integer('qty_students')->default(1);
+            $table->enum('status', ['Chưa hoạt động', 'Đang hoạt động', 'Ngừng hoạt động'])->default('Chưa hoạt động');
             $table->timestamps();
-
             // foreign key
             $table->unsignedBigInteger('id_type');
             $table->unsignedBigInteger('id_subject');

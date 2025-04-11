@@ -47,6 +47,12 @@ const router = createRouter({
       component: () => import('../views/admin/TutorsView.vue'),
     },
     {
+      path: '/degrees',
+
+      name: 'degrees',
+      component: () => import('../views/admin/DegreesView.vue'),
+    },
+    {
       path: '/students',
 
       name: 'students',
@@ -84,10 +90,10 @@ const router = createRouter({
       component: () => import('../views/admin/TypeclassView.vue'),
     },
     {
-      path: '/students-classes',
+      path: '/subject',
 
-      name: 'students-classes',
-      component: () => import('../views/admin/StudentsClassesView.vue'),
+      name: 'subject',
+      component: () => import('../views/admin/SubjectView.vue'),
     }
   ],
 })

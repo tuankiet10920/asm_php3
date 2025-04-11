@@ -16,12 +16,10 @@ class Classes extends Seeder
     public function run(): void
     {
         $arr_sub = [3, 24, 45, 66, 87];
-        for ($i=1; $i <= 30; $i++) {
+        for ($i = 1; $i <= 30; $i++) {
             $index = rand(0, 4);
             DB::table('class')->insert([
                 'time_start' => now(),
-                'status' => 0,
-                'qty_students' => 3,
                 'created_at' => now(),
                 'updated_at' => now(),
                 'id_type' => rand(1, 4),

@@ -43,118 +43,119 @@ onMounted(() => {
         <hr class="horizontal dark mt-0">
         <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <RouterLink class="nav-link active" to="/dashboard">
-                        <div
-                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="ni ni-tv-2 text-dark text-sm opacity-10"></i>
-                        </div>
-                        <span class="nav-link-text ms-1">Dashboard</span>
-                    </RouterLink>
-                </li>
-                <li class="nav-item">
-                    <RouterLink class="nav-link " to="/students">
-                        <div
-                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="ni ni-calendar-grid-58 text-dark text-sm opacity-10"></i>
-                        </div>
-                        <span class="nav-link-text ms-1">Students</span>
-                    </RouterLink>
-                </li>
-                <li class="nav-item">
-                    <RouterLink class="nav-link " to="/tutors">
-                        <div
-                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
-                        </div>
-                        <span class="nav-link-text ms-1">Tutors</span>
-                    </RouterLink>
-                </li>
-                <li class="nav-item">
-                    <RouterLink class="nav-link " to="/classes">
-                        <div
-                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="ni ni-app text-dark text-sm opacity-10"></i>
-                        </div>
-                        <span class="nav-link-text ms-1">Classes</span>
-                    </RouterLink>
-                </li>
-                <li class="nav-item">
-                    <RouterLink class="nav-link " to="/payments">
-                        <div
-                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="ni ni-world-2 text-dark text-sm opacity-10"></i>
-                        </div>
-                        <span class="nav-link-text ms-1">Payments</span>
-                    </RouterLink>
-                </li>
-                <li class="nav-item">
-                    <RouterLink class="nav-link " to="/typeclass">
-                        <div
-                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="ni ni-world-2 text-dark text-sm opacity-10"></i>
-                        </div>
-                        <span class="nav-link-text ms-1">Type Class</span>
-                    </RouterLink>
-                </li>
-                <li class="nav-item">
-                    <RouterLink class="nav-link " to="/classes">
-                        <div
-                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="ni ni-world-2 text-dark text-sm opacity-10"></i>
-                        </div>
-                        <span class="nav-link-text ms-1">Classes</span>
-                    </RouterLink>
-                </li>
-                <li class="nav-item">
-                    <RouterLink class="nav-link " to="/students-classes">
-                        <div
-                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="ni ni-world-2 text-dark text-sm opacity-10"></i>
-                        </div>
-                        <span class="nav-link-text ms-1">Students Classes</span>
-                    </RouterLink>
-                </li>
-                <li class="nav-item mt-3">
-                    <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
-                </li>
-                <li class="nav-item">
-                    <RouterLink class="nav-link " to="/revenues">
-                        <div
-                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
-                        </div>
-                        <span class="nav-link-text ms-1">Revenues</span>
-                    </RouterLink>
-                </li>
-                <li class="nav-item">
-                    <RouterLink class="nav-link " to="/feedbacks">
-                        <div
-                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
-                        </div>
-                        <span class="nav-link-text ms-1">Feedbacks</span>
-                    </RouterLink>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " href="../pages/sign-in.html">
-                        <div
-                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="ni ni-single-copy-04 text-dark text-sm opacity-10"></i>
-                        </div>
-                        <span class="nav-link-text ms-1">Sign In</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " href="../pages/sign-up.html">
-                        <div
-                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="ni ni-collection text-dark text-sm opacity-10"></i>
-                        </div>
-                        <span class="nav-link-text ms-1">Sign Up</span>
-                    </a>
-                </li>
-            </ul>
+    <li class="nav-item">
+        <RouterLink class="nav-link active" to="/dashboard">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-tv-2 text-dark text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Dashboard</span>
+        </RouterLink>
+    </li>
+
+    <li class="nav-item">
+        <RouterLink class="nav-link" to="/students">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Students</span>
+        </RouterLink>
+    </li>
+
+    <li class="nav-item">
+        <RouterLink class="nav-link" to="/tutors">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-badge text-dark text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Tutors</span>
+        </RouterLink>
+    </li>
+
+    <li class="nav-item">
+        <RouterLink class="nav-link" to="/degrees">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-hat-3 text-dark text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Degrees</span>
+        </RouterLink>
+    </li>
+
+    <li class="nav-item">
+        <RouterLink class="nav-link" to="/classes">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-books text-dark text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Classes</span>
+        </RouterLink>
+    </li>
+
+    <li class="nav-item">
+        <RouterLink class="nav-link" to="/payments">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Payments</span>
+        </RouterLink>
+    </li>
+
+    <li class="nav-item">
+        <RouterLink class="nav-link" to="/typeclass">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-app text-dark text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Type Class</span>
+        </RouterLink>
+    </li>
+
+    <li class="nav-item">
+        <RouterLink class="nav-link" to="/subject">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-app text-dark text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Subject</span>
+        </RouterLink>
+    </li>
+
+    <li class="nav-item mt-3">
+        <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
+    </li>
+
+    <li class="nav-item">
+        <RouterLink class="nav-link" to="/revenues">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-money-coins text-dark text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Revenues</span>
+        </RouterLink>
+    </li>
+
+    <li class="nav-item">
+        <RouterLink class="nav-link" to="/feedbacks">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-chat-round text-dark text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Feedbacks</span>
+        </RouterLink>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="../pages/sign-in.html">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-single-copy-04 text-dark text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Sign In</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="../pages/sign-up.html">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-collection text-dark text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Sign Up</span>
+        </a>
+    </li>
+</ul>
+
         </div>
     </aside>
     <main class="main-content position-relative border-radius-lg ">
