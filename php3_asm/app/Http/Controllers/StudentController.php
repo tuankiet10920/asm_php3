@@ -20,11 +20,6 @@ class StudentController extends Controller
     }
     function findStudents($keySearch)
     {
-        // if(!is_numeric($keySearch)){
-        //     $searchItem = '%' . $keySearch . '%';
-        // }else{
-        //     $searchItem = $keySearch;
-        // }
         $searchItem = '%' . $keySearch . '%';
         $students = App\Models\Student::where('name', 'like', $searchItem)->orWhere('id', 'like', $searchItem)->get();
         return response()->json($students, 200);

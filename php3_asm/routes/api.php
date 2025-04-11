@@ -23,6 +23,7 @@ Route::post('/send-mail', [MailController::class, 'sendMail']);
 Route::get('/students-class', [StudentClassController::class, 'index']);
 Route::get('/student-class/{id}', [StudentClassController::class, 'getById']);
 Route::post('/student-class', [StudentClassController::class, 'store']);
+Route::put('/student-class/{id}', [StudentClassController::class, 'update']);
 
 Route::get('/students', [StudentController::class, 'index']);
 Route::get('/student/{id}', [StudentController::class, 'getById']);
@@ -57,6 +58,7 @@ Route::post('/degree', [DegreeController::class, 'store']);
 Route::get('/classes', [ClassController::class, 'index']);
 Route::get('/class/{id}', [ClassController::class, 'getById']);
 Route::post('/class', [ClassController::class, 'store']);
+Route::put('/class/2', [ClassController::class, 'update']);
 
 Route::get('/tutor-bills', [TutorBillController::class, 'index']);
 Route::get('/tutor-bill/{id}', [TutorBillController::class, 'getById']);
