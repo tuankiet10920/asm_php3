@@ -94,7 +94,6 @@ onMounted(() => {
                     <tr>
                         <th>STT</th>
                         <th>Mã Lớp</th>
-                        <th>Tên Lớp</th>
                         <th>Môn Học</th>
                         <th>Số Học Sinh</th>
                         <th>Giảng Viên</th>
@@ -109,18 +108,13 @@ onMounted(() => {
                     <tr v-for="(cls, index) in searchClasses" style="border: 1px solid #dee2e6;">
                         <td>{{ index + 1 }}</td>
                         <td>{{ 'LH00' + cls.id }}</td>
-                        <td>{{ cls.subject?.name_lesson || 'Không có tên' }}</td>
-                        <td>{{ cls.subject?.name || 'Không có môn học' }}</td>
+                        <td>{{ cls.subject?.name }}</td>
                         <td>{{ cls.qty_students || 0 }}</td>
                         <td>{{ cls.tutor?.name || 'Chưa có giảng viên' }}</td>
-                        <td>{{ cls.time_start || '' }}</td>
+                        <td>{{new Date(cls.time_start).toLocaleDateString('vi-VN')}}</td>
                         <td>{{ cls.time_end || '' }}</td>
                         <td>{{ cls.type?.price || 0 }}</td>
-                        <td>
-                            <span :class="cls.status === 1 ? 'badge bg-success' : 'badge bg-secondary'">
-                                {{ cls.status === 1 ? 'Đang hoạt động' : 'Ngưng hoạt động' }}
-                            </span>
-                        </td>
+                        <td>{{ cls.status }}</td>
                         <td>
                             <button class="btn btn-warning btn-sm me-1" data-bs-toggle="modal" data-bs-target="#editClassModal">Sửa</button>
                             <button class="btn btn-danger btn-sm">Xóa</button>

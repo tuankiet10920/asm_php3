@@ -11,8 +11,7 @@ class Classes extends Model
     protected $table = 'class';
     protected $dates = ['time_start'];
     protected $attributes = [
-        'status' => 0,
-        'qty_students' => 3,
+        'status' => 'Chờ xét duyệt',
         'id_type' => 1,
         'id_subject' => 3,
         'id_tutor' => 1,
@@ -20,7 +19,6 @@ class Classes extends Model
     protected $fillable = [
         'time_start',
         'status',
-        'qty_students',
         'id_type',
         'id_subject',
         'id_tutor',

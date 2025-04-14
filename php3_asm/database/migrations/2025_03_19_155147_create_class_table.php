@@ -22,8 +22,8 @@ return new class extends Migration
             $table->unsignedBigInteger('id_tutor');
 
             $table->foreign('id_type')->references('id')->on('type_class');
-            $table->foreign('id_subject')->references('id')->on('subject');
             $table->foreign('id_tutor')->references('id')->on('tutor');
+            $table->foreign('id_subject')->references('id')->on('subject');
         });
     }
 

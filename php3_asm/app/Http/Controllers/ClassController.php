@@ -22,7 +22,6 @@ class ClassController extends Controller
         $class = App\Models\Classes::find($id);
         return response()->json($class);
     }
-
     /**
      * Show the form for creating a new resource.
      */
@@ -30,6 +29,16 @@ class ClassController extends Controller
     {
         //
     }
+    public function search($key)
+    {
+        $classes = App\Models\Classes::with(['type', 'subject', 'tutor'])
+            ->where('name', 'like', '%' . $key . '%')
+            ->orWhere('id', $key)
+            ->get();
+
+        return response()->json($classes);
+    }
+
 
     /**
      * Store a newly created resource in storage.
