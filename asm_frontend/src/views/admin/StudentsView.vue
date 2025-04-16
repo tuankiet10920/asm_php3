@@ -7,12 +7,22 @@ const searchTerm = ref('')
 const errorMessage = ref('')
 // Lưu thông tin học viên được chọn
 const selectedStudent = ref('')
+console.log('hello its me ',JSON.parse(localStorage.getItem('data')));
+
 function getStudents() {
+    const data = JSON.parse(localStorage.getItem('data'))
+    const id = data.id
+    
+    let code = parseInt(localStorage.getItem('code'))
+    
+    let url = code === 3 ? `http://127.0.0.1:8000/api/class-student/${id}` : 'http://127.0.0.1:8000/api/students'
+    console.log(url);
+    
     axios
-        .get('http://127.0.0.1:8000/api/students')
+        .get(url)
         .then(response => {
             console.log('allStudents ', response.data);
-            students.value = response.data
+            students.value = response.data.data
         })
         .catch(error => console.log(error))
 }

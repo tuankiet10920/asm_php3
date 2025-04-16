@@ -44,10 +44,10 @@ async function login() {
 		const response = await axios.post(`http://127.0.0.1:8000/api/${__table}/login`, data);
 		console.log(response);
 		const status = response.data.code;
-
 		if (status === 200) {
 			const __data = response.data.data;
 			localStorage.setItem('code', config.index[__name])
+			localStorage.setItem('data', JSON.stringify(__data))
 			window.location.href = 'http://localhost:5173/dashboard'
 		}
 	} catch (error) {

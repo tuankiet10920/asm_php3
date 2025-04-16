@@ -17,6 +17,7 @@ class ClassController extends Controller
         return response()->json($classes);
     }
 
+
     public function getById($id)
     {
         $class = App\Models\Classes::with(['subject', 'tutor', 'type'])->find($id);

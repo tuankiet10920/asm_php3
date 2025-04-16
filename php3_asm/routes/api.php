@@ -27,6 +27,7 @@ Route::put('/student-class/{id}', [StudentClassController::class, 'update']);
 
 Route::get('/students', [StudentController::class, 'index']);
 Route::get('/student/{id}', [StudentController::class, 'getById']);
+Route::get('/class-student/{id}', [StudentController::class, 'getAllByStudentID']);
 Route::get('/students/{keySearch}', [StudentController::class, 'findStudents']);
 Route::post('/student', [StudentController::class, 'store']);
 Route::post('/student/login', [StudentController::class, 'login']);

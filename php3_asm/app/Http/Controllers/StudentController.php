@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App;
+use Illuminate\Support\Facades\DB;
 
 class StudentController extends Controller
 {
@@ -18,18 +19,33 @@ class StudentController extends Controller
         $student = App\Models\Student::find($id);
         return response()->json($student);
     }
-    function login(Request $request){
+
+    function getAllByStudentID($id)
+    {
+        $info = DB::table('student_class')
+            ->join('class', 'class.id', '=', 'student_class.id_class')
+            ->join('type_class', 'class.id_type', '=', 'type_class.id')
+            ->select('student_class.*', 'class.time_start', 'type_class.name', 'type_class.price')
+            ->where('student_class.id', $id)
+            ->get();
+        return response()->json([
+            'message' => 'Successfully!',
+            'data' => $info
+        ]);
+    }
+    function login(Request $request)
+    {
         $student = App\Models\Student::where([
             ["email", '=', $request->email],
             ["password", '=', $request->password]
         ])->first();
-        if($student){
+        if ($student) {
             return response()->json([
                 'message' => 'Successfullly!',
                 'data' => $student,
                 'code' => 200
             ], 200);
-        }else{
+        } else {
             return response()->json([
                 'message' => 'Login failed!',
                 'code' => 500

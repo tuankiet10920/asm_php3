@@ -3,6 +3,13 @@ import { RouterLink, RouterView } from 'vue-router'
 import { ref, onMounted } from 'vue'
 console.log(document.getElementsByTagName('head'));
 
+
+function logout(){
+    localStorage.removeItem('code')
+    window.location.href = 'http://localhost:5173/'
+}
+
+
 onMounted(() => {
     const xxxxx = 'stylesheet';
     const xxxxxx = [
@@ -77,6 +84,15 @@ onMounted(() => {
             </div>
             <span class="nav-link-text ms-1">Payments</span>
         </RouterLink>
+    </li>
+
+    <li class="nav-item" @click="logout">
+        <div class="nav-link">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Logout</span>
+        </div>
     </li>
     
     <li class="nav-item">
