@@ -41,9 +41,10 @@ import { RouterLink } from 'vue-router';
                                 Liên hệ
                             </RouterLink>
                         </li>
-                    </ul><a href="#download_app" target="_blank"
-                        class="btn btn-buy btn-secondary animate-up-2 d-none d-lg-inline ml-3">Trải
-                        nghiệm ngay</a>
+                    </ul>
+                        <RouterLink to="/login"  target="_blank" class="btn btn-buy btn-secondary animate-up-2 d-none d-lg-inline ml-3">
+                                Đăng nhập
+                        </RouterLink>
                 </div>
                 <div class="d-flex d-lg-none align-items-center">
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar_global"

@@ -18,6 +18,24 @@ class StudentController extends Controller
         $student = App\Models\Student::find($id);
         return response()->json($student);
     }
+    function login(Request $request){
+        $student = App\Models\Student::where([
+            ["email", '=', $request->email],
+            ["password", '=', $request->password]
+        ])->first();
+        if($student){
+            return response()->json([
+                'message' => 'Successfullly!',
+                'data' => $student,
+                'code' => 200
+            ], 200);
+        }else{
+            return response()->json([
+                'message' => 'Login failed!',
+                'code' => 500
+            ], 500);
+        }
+    }
     function findStudents($keySearch)
     {
         $searchItem = '%' . $keySearch . '%';

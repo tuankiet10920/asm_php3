@@ -4,6 +4,12 @@ import Header from './users/Header.vue'
 import Footer from './users/Footer.vue'
 import { onMounted } from 'vue'
 
+const props = defineProps({
+    config: Object
+})
+
+
+
 onMounted(() => {
     // <link type="text/css" href="css/bookbook.css" rel="stylesheet" />
     let link = document.createElement('link')

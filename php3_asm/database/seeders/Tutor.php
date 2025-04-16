@@ -14,7 +14,7 @@ class Tutor extends Seeder
      */
     public function run(): void
     {
-        // `id`, `name`, `birthday`, `education_level`, `address`, `image`, 
+        // `id`, `name`, `birthday`, `education_level`, `address`, `image`,
         // `email`, `phone`, `momo_acc_num`, `created_at`, `updated_at`
         $start_date = strtotime("2023-01-01"); // Ngày bắt đầu
         $end_date = strtotime("2024-12-31");   // Ngày kết thúc

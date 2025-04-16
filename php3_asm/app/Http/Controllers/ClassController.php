@@ -66,7 +66,7 @@ class ClassController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        return response()->json([])
+        return response()->json([]);
     }
 
     /**

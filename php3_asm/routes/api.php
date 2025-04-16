@@ -29,6 +29,7 @@ Route::get('/students', [StudentController::class, 'index']);
 Route::get('/student/{id}', [StudentController::class, 'getById']);
 Route::get('/students/{keySearch}', [StudentController::class, 'findStudents']);
 Route::post('/student', [StudentController::class, 'store']);
+Route::post('/student/login', [StudentController::class, 'login']);
 Route::put('/student/{id}', [StudentController::class, 'update']);
 Route::delete('/student/{id}', [StudentController::class, 'delete']);
 
@@ -40,6 +41,7 @@ Route::delete('/type-class/{id}', [TypeClassController::class, 'delete']);
 
 Route::get('/tutors', [TutorController::class, 'index']);
 Route::get('/tutor/{id}', [TutorController::class, 'getById']);
+Route::post('/tutor/login', [TutorController::class, 'login']);
 Route::get('/tutors/{keySearch}', [TutorController::class, 'findTutors']);
 Route::post('/tutor', [TutorController::class, 'store']);
 Route::put('/tutor/{id}', [TutorController::class, 'update']);
