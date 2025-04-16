@@ -6,7 +6,9 @@ import axios from 'axios'
 const subject = ref([])  // Danh sách môn
 const searchTerm = ref('')  // Từ khóa tìm kiếm
 const errorMessage = ref('')  // Thông báo lỗi
-const selectedSubject = ref('')
+const selectedSubject = ref({})
+const subjectName = ref('')
+const subjectlesson = ref('')
 
 // Lấy danh sách môn
 function getSubject() {
@@ -88,12 +90,11 @@ function updateSubject() {
 
 // Chỉnh sửa thông tin môn
 function editSubject(id) {
-    const subject = subject.value.find(subject => subject.id === id)
-    if (subject) {
-        selectedSubject.value = { ...subject }
+    const found = subject.value.find(item => item.id === id)
+    if (found) {
+        selectedSubject.value = { ...found }
     }
 }
-
 onMounted(() => {
     getSubject();
 })
@@ -125,8 +126,8 @@ onMounted(() => {
                                 <input v-model="subjectName" type="text" class="form-control" id="subjectName" placeholder="Nhập tên môn" required />
                             </div>
                             <div class="mb-3">
-                                <label for="subjectPhone" class="form-label">Giá</label>
-                                <input v-model="subjectPhone" type="tel" class="form-control" id="subjectPhone" placeholder="Nhập giá" required pattern="^[0-9]{10}$" />
+                                <label for="subjectlesson" class="form-label">Giá</label>
+                                <input v-model="subjectlesson" type="text" class="form-control" id="subjectlesson" placeholder="Nhập bài học" required />
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
@@ -159,7 +160,7 @@ onMounted(() => {
                         <td>{{ item.name_lesson }}</td>
                         <td>{{ item.status || 'Chưa hoạt động' }}</td>
                         <td>
-                            <button class="btn btn-warning btn-sm" @click="editSubject(item.id)" data-bs-toggle="modal" data-bs-target="#editTypeclassModal">Sửa</button>
+                            <button class="btn btn-warning btn-sm" @click="editSubject(item.id)" data-bs-toggle="modal" data-bs-target="#editSubjectModal">Sửa</button>
                             <button class="btn btn-danger btn-sm" @click="deleteSubject(item.id)">Xóa</button>
                         </td>
                     </tr>
@@ -180,11 +181,11 @@ onMounted(() => {
                     <form v-if="selectedSubject" @submit.prevent="updateSubject">
                         <div class="mb-3">
                             <label for="editSubjectName" class="form-label">Tên môn</label>
-                            <input v-model="selectedSubject.name" type="text" class="form-control" id="editSubjectName" placeholder="Nhập tên môn" required />
+                            <input v-model="subjectName" type="text" class="form-control" id="editSubjectName" placeholder="Nhập tên môn" required />
                         </div>
                         <div class="mb-3">
-                            <label for="editSubjectPrice" class="form-label">Giá</label>
-                            <input v-model="selectedSubject.price" type="tel" class="form-control" id="editSubjectPrice" placeholder="Nhập giá" required pattern="^[0-9]{10}$" />
+                            <label for="editSubjectlesson" class="form-label">Tên bài học</label>
+                            <input v-model="subjectlesson" type="tel" class="form-control" id="editSubjectlesson" placeholder="Nhập bài học" required  />
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>

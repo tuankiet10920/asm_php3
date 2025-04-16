@@ -96,7 +96,9 @@ class DegreeController extends Controller
     {
         $degrees = Degree::with('tutor')
             ->where('name', 'like', '%' . $key . '%')
+            ->orWhere('id', $key)
             ->get();
+
         return response()->json($degrees);
     }
 }

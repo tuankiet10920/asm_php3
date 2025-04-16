@@ -88,9 +88,9 @@ function updateTypeclass() {
 
 // Chỉnh sửa thông tin lớp
 function editTypeclass(id) {
-    const typeclass = typeclass.value.find(typeclass => typeclass.id === id)
-    if (typeclass) {
-        selectedTypeclass.value = { ...typeclass }
+    const found = typeclass.value.find(item => item.id === id)
+    if (found) {
+        selectedTypeclass.value = { ...found }
     }
 }
 
@@ -158,7 +158,7 @@ onMounted(() => {
                         <td>{{ item.status || 'Chưa hoạt động' }}</td>
                         <td>
                             <button class="btn btn-warning btn-sm" @click="editTypeclass(item.id)" data-bs-toggle="modal" data-bs-target="#editTypeclassModal">Sửa</button>
-                            <button class="btn btn-danger btn-sm" @click="deleteType(item.id)">Xóa</button>
+                            <button class="btn btn-danger btn-sm" @click="deleteTypeclass(item.id)">Xóa</button>
                         </td>
                     </tr>
                 </tbody>
