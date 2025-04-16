@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('password')->default(Hash::make('password123'));;
             $table->string('phone')->nullable();
             $table->string('momo_acc_num')->nullable();
+            $table->string('role')->default('tutor');
             $table->enum('status', ['Chờ xét duyệt', 'Đã xét duyệt', 'Đang hoạt động', 'Ngừng hoạt động'])->default('Chờ xét duyệt');
             $table->timestamps();
             // foreign key

@@ -13,15 +13,23 @@ class ClassController extends Controller
      */
     function index()
     {
-        $classes = App\Models\Classes::with(['type', 'subject', 'tutor'])->get();
+        $classes = App\Models\Classes::with(['type', 'subject', 'tutor', 'students'])->get();
         return response()->json($classes);
     }
 
-    function getById($id)
+
+    public function getById($id)
     {
-        $class = App\Models\Classes::find($id);
+        $class = App\Models\Classes::with(['subject', 'tutor', 'type'])->find($id);
+
+        if (!$class) {
+            return response()->json(['message' => 'Lớp học không tồn tại'], 404);
+        }
+
+        // Trả về dữ liệu lớp học dưới dạng JSON
         return response()->json($class);
     }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -31,13 +39,13 @@ class ClassController extends Controller
     }
     public function search($key)
     {
-        $classes = App\Models\Classes::with(['type', 'subject', 'tutor'])
-            ->where('name', 'like', '%' . $key . '%')
-            ->orWhere('id', $key)
+        $classes = App\Models\Classes::with(['type', 'subject', 'tutor', 'students'])
+            ->where('id', 'like', '%' . $key . '%')
             ->get();
 
         return response()->json($classes);
     }
+
 
 
     /**
@@ -73,9 +81,44 @@ class ClassController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        // Tìm class theo ID
+        $class = App\Models\Classes::find($id);
+        if (!$class) {
+            return response()->json(['message' => 'Class not found'], 404);
+        }
+        $class->update($request->all());
+        return response()->json([
+            'message' => 'Successfully updated!',
+            'data' => $class
+        ]);
+    }
+
+
+    function delete($id)
+    {
+        $class = App\Models\Classes::find($id);
+        if ($class) {
+            try {
+                $class->delete();
+                return response()->json([
+                    'code' => 200,
+                    'message' => 'Successfully!'
+                ], 200);
+            } catch (\Exception $e) {
+                return response()->json([
+                    'code' => 500,
+                    'message' => 'Không thể xóa lớp này!',
+                    'message-code' => $e->getMessage()
+                ]);
+            }
+        } else {
+            return response()->json([
+                'code' => 404,
+                'message' => 'Student not found with ID: ' . $id
+            ], 404);
+        }
     }
 
     /**

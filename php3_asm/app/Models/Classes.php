@@ -11,7 +11,7 @@ class Classes extends Model
     protected $table = 'class';
     protected $dates = ['time_start'];
     protected $attributes = [
-        'status' => 'Chờ xét duyệt',
+        'status' => 'Chưa hoạt động',
         'id_type' => 1,
         'id_subject' => 3,
         'id_tutor' => 1,
@@ -39,6 +39,10 @@ class Classes extends Model
         return $this->belongsTo(Tutor::class, 'id_tutor');
     }
 
+    public function students()
+    {
+        return $this->hasMany(StudentClass::class, 'id_class');
+    }
     protected static function boot()
     {
         parent::boot();

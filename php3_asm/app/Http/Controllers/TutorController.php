@@ -13,6 +13,27 @@ class TutorController extends Controller
         $tutors = App\Models\Tutor::with('classes')->get();
         return response()->json($tutors);
     }
+    function register(Request $request){
+        return $this->store($request);
+    }
+    function login(Request $request){
+        $tutor = App\Models\Tutor::where([
+            ["email", '=', $request->email],
+            ["password", '=', $request->password]
+        ])->first();
+        if($tutor){
+            return response()->json([
+                'message' => 'Successfullly!',
+                'data' => $tutor,
+                'code' => 200
+            ], 200);
+        }else{
+            return response()->json([
+                'message' => 'Login failed!',
+                'code' => 500
+            ], 500);
+        }
+    }
     function getById($id)
     {
         $tutor = App\Models\Tutor::find($id);

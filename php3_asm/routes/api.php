@@ -23,11 +23,14 @@ Route::post('/send-mail', [MailController::class, 'sendMail']);
 Route::get('/students-class', [StudentClassController::class, 'index']);
 Route::get('/student-class/{id}', [StudentClassController::class, 'getById']);
 Route::post('/student-class', [StudentClassController::class, 'store']);
+Route::put('/student-class/{id}', [StudentClassController::class, 'update']);
 
 Route::get('/students', [StudentController::class, 'index']);
 Route::get('/student/{id}', [StudentController::class, 'getById']);
+Route::get('/class-student/{id}', [StudentController::class, 'getAllByStudentID']);
 Route::get('/students/{keySearch}', [StudentController::class, 'findStudents']);
 Route::post('/student', [StudentController::class, 'store']);
+Route::post('/student/login', [StudentController::class, 'login']);
 Route::put('/student/{id}', [StudentController::class, 'update']);
 Route::delete('/student/{id}', [StudentController::class, 'delete']);
 
@@ -39,6 +42,7 @@ Route::delete('/type-class/{id}', [TypeClassController::class, 'delete']);
 
 Route::get('/tutors', [TutorController::class, 'index']);
 Route::get('/tutor/{id}', [TutorController::class, 'getById']);
+Route::post('/tutor/login', [TutorController::class, 'login']);
 Route::get('/tutors/{keySearch}', [TutorController::class, 'findTutors']);
 Route::post('/tutor', [TutorController::class, 'store']);
 Route::put('/tutor/{id}', [TutorController::class, 'update']);
@@ -61,7 +65,7 @@ Route::get('/degrees/search/{key}', [DegreeController::class, 'search']);
 Route::get('/classes', [ClassController::class, 'index']);
 Route::get('/class/{id}', [ClassController::class, 'getById']);
 Route::post('/class', [ClassController::class, 'store']);
-Route::get('/classes/search/{key}', [ClassController::class, 'search']);
+Route::put('/class/2', [ClassController::class, 'update']);
 
 Route::get('/tutor-bills', [TutorBillController::class, 'index']);
 Route::get('/tutor-bill/{id}', [TutorBillController::class, 'getById']);

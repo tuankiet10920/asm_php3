@@ -16,6 +16,7 @@ class Student extends Model
         'birthday' => '1975-04-30',
         'address' => 'X street, X ward, X city',
         'phone' => '0123456789',
+        'role' => 'Student',
     ];
     protected $fillable = [
         'name',
@@ -24,6 +25,7 @@ class Student extends Model
         'address',
         'email',
         'phone',
+        'role',
         'password'
     ];
 }
