@@ -6,9 +6,7 @@ import axios from 'axios'
 const subject = ref([])  // Danh sách môn
 const searchTerm = ref('')  // Từ khóa tìm kiếm
 const errorMessage = ref('')  // Thông báo lỗi
-const selectedSubject = ref({})
-const subjectName = ref('')
-const subjectlesson = ref('')
+const selectedSubject = ref('')
 
 // Lấy danh sách môn
 function getSubject() {
@@ -180,13 +178,11 @@ onMounted(() => {
                 <div class="modal-body">
                     <form v-if="selectedSubject" @submit.prevent="updateSubject">
                         <div class="mb-3">
-                            <label for="editSubjectName" class="form-label">Tên môn</label>
-                            <input v-model="subjectName" type="text" class="form-control" id="editSubjectName" placeholder="Nhập tên môn" required />
-                        </div>
+                            <label for="subjectName" class="form-label">Tên môn</label>
+                            <input v-model="selectedSubject.name" type="text" class="form-control" id="editSubjectName" placeholder="Nhập tên môn" required />                        </div>
                         <div class="mb-3">
-                            <label for="editSubjectlesson" class="form-label">Tên bài học</label>
-                            <input v-model="subjectlesson" type="tel" class="form-control" id="editSubjectlesson" placeholder="Nhập bài học" required  />
-                        </div>
+                            <label for="subjectlesson" class="form-label">Tên bài học</label>
+                            <input v-model="selectedSubject.lesson" type="text" class="form-control" id="editSubjectlesson" placeholder="Nhập bài học" required />                        </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                             <button type="submit" class="btn btn-primary">Cập nhật</button>

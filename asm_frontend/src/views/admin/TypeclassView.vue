@@ -153,7 +153,7 @@ onMounted(() => {
                 <tbody>
                     <tr v-for="(item, index) in typeclass" :key="item.id">
                         <td>{{ index + 1 }}</td>
-                        <td>TC00{{ item.id }}</td>
+                        <td>TC00{{ item.name }}</td>
                         <td>{{ item.price }}</td>
                         <td>{{ item.status || 'Chưa hoạt động' }}</td>
                         <td>
@@ -182,7 +182,7 @@ onMounted(() => {
                         </div>
                         <div class="mb-3">
                             <label for="editTypeclassPrice" class="form-label">Giá</label>
-                            <input v-model="selectedTypeclass.price" type="tel" class="form-control" id="editTypeclassPrice" placeholder="Nhập giá" required pattern="^[0-9]{10}$" />
+                            <input v-model="selectedTypeclass.price" type="text" class="form-control" id="editTypeclassPrice" placeholder="Nhập giá" />
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
