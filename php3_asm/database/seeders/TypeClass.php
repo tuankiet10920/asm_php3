@@ -13,9 +13,9 @@ class TypeClass extends Seeder
      */
     public function run(): void
     {
-        for ($i=1; $i <= 4; $i++) { 
+        for ($i=1; $i <= 10; $i++) { 
             DB::table('type_class')->insert([
-                'name' => '1 : ' . $i,
+                'name' => 'TC00' . $i,
                 'price' => 1000000 * $i,
                 'created_at' => now(),
                 'updated_at' => now()

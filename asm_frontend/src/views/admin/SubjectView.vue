@@ -7,6 +7,8 @@ const subject = ref([])  // Danh sách môn
 const searchTerm = ref('')  // Từ khóa tìm kiếm
 const errorMessage = ref('')  // Thông báo lỗi
 const selectedSubject = ref('')
+const subjectName = ref('')
+const subjectlesson = ref('')
 
 // Lấy danh sách môn
 function getSubject() {
@@ -37,26 +39,34 @@ function findSubject() {
 
 // Thêm môn
 function addSubject() {
-    const newSubject = {
+    const newsubject = {
         name: subjectName.value,
-        email: subjectEmail.value,
-        phone: subjectPhone.value,
+        name_lesson: subjectlesson.value,
     }
 
     axios
-        .post('http://127.0.0.1:8000/api/subject', newSubject)
+        .post('http://127.0.0.1:8000/api/subject', newsubject)
         .then(response => {
-            subject.value.push(response.data)
-
             const modal = document.getElementById('addSubjectModal')
-            const modalInstance = bootstrap.Modal.getInstance(modal)
-            modalInstance.hide()  // Đóng modal
+            const modalInstance = bootstrap.Modal.getOrCreateInstance(modal)
+            modalInstance.hide()
             errorMessage.value = ''
 
-            getTypeclass()
+            getSubject()
+            subjectName.value = ''
+            subjectlesson.value = ''
         })
-        .catch(error =>{ 
-            errorMessage.value = 'môn đã được đăng ký'
+        .catch(error => {
+            if (error.response) {
+                console.error('API trả lỗi:', error.response.data)
+                errorMessage.value = error.response.data.message || 'Lỗi không xác định từ server'
+            } else if (error.request) {
+                console.error('Không kết nối được tới server:', error.request)
+                errorMessage.value = 'Không kết nối được tới server'
+            } else {
+                console.error('Lỗi khi gửi request:', error.message)
+                errorMessage.value = 'Đã xảy ra lỗi không xác định'
+            }
         })
 }
 
@@ -65,7 +75,7 @@ function deleteSubject(id) {
     axios
         .delete(`http://127.0.0.1:8000/api/subject/${id}`)
         .then(response => {
-            subjects.value = subjects.value.filter(subject => subject.id !== id);
+            subject.value = subject.value.filter(subject => subject.id !== id);
         })
         .catch(error => console.log(error))
 }
@@ -73,16 +83,19 @@ function deleteSubject(id) {
 // Cập nhật thông tin môn
 function updateSubject() {
     axios
-        .put(`http://127.0.0.1:8000/api/subject/${selectedSubject.value.id}`, selectedSubject.value)
+        .put(`http://127.0.0.1:8000/api/subject/${selectedSubject.value.id}`, {
+            name: selectedSubject.value.name,
+            name_lesson: selectedSubject.value.lesson, 
+        })
         .then(response => {
-            getSubject()  // Cập nhật lại danh sách môn
+            getSubject()
             const modal = document.getElementById('editSubjectModal')
             const modalInstance = bootstrap.Modal.getInstance(modal)
-            modalInstance.hide()  // Đóng modal
+            modalInstance.hide()
             errorMessage.value = ''
         })
         .catch(error => {
-            errorMessage.value =  'môn đã được đăng ký'
+            errorMessage.value = 'Môn đã được đăng ký'
         })
 }
 
@@ -90,7 +103,10 @@ function updateSubject() {
 function editSubject(id) {
     const found = subject.value.find(item => item.id === id)
     if (found) {
-        selectedSubject.value = { ...found }
+        selectedSubject.value = {
+            ...found,
+            lesson: found.name_lesson 
+        }
     }
 }
 onMounted(() => {
@@ -182,7 +198,7 @@ onMounted(() => {
                             <input v-model="selectedSubject.name" type="text" class="form-control" id="editSubjectName" placeholder="Nhập tên môn" required />                        </div>
                         <div class="mb-3">
                             <label for="subjectlesson" class="form-label">Tên bài học</label>
-                            <input v-model="selectedSubject.lesson" type="text" class="form-control" id="editSubjectlesson" placeholder="Nhập bài học" required />                        </div>
+                            <input v-model="selectedSubject.name_lesson" type="text" class="form-control" id="editSubjectlesson" placeholder="Nhập bài học" required />                        </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                             <button type="submit" class="btn btn-primary">Cập nhật</button>
