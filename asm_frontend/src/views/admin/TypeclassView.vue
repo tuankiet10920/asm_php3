@@ -7,6 +7,8 @@ const typeclass = ref([])  // Danh sách lớp
 const searchTerm = ref('')  // Từ khóa tìm kiếm
 const errorMessage = ref('')  // Thông báo lỗi
 const selectedTypeclass = ref('')
+const typeclassName = ref('')
+const typeclassPrice = ref('')
 
 // Lấy danh sách lớp
 function getTypeclass() {
@@ -39,25 +41,34 @@ function findTypeclass() {
 function addTypeclass() {
     const newTypeclass = {
         name: typeclassName.value,
-        email: typeclassEmail.value,
-        phone: typeclassPhone.value,
+        price: typeclassPrice.value,
     }
 
     axios
         .post('http://127.0.0.1:8000/api/type-class', newTypeclass)
         .then(response => {
-            typeclass.value.push(response.data)
-
             const modal = document.getElementById('addTypeclassModal')
-            const modalInstance = bootstrap.Modal.getInstance(modal)
-            modalInstance.hide()  // Đóng modal
+            const modalInstance = bootstrap.Modal.getOrCreateInstance(modal)
+            modalInstance.hide()
             errorMessage.value = ''
 
             getTypeclass()
+            typeclassName.value = ''
+            typeclassPrice.value = ''
         })
-        .catch(error =>{ 
-            errorMessage.value = 'Lớp đã được đăng ký'
-        })
+        .catch(error => {
+            if (error.response) {
+                console.error('API trả lỗi:', error.response.data) 
+
+                errorMessage.value = error.response.data.message || 'Lỗi không xác định từ server'
+            } else if (error.request) {
+                console.error('Không kết nối được tới server:', error.request)
+                errorMessage.value = 'Không kết nối được tới server'
+            } else {
+                console.error('Lỗi khi gửi request:', error.message)
+                errorMessage.value = 'Đã xảy ra lỗi không xác định'
+            }
+})
 }
 
 // Xóa lớp
@@ -65,7 +76,7 @@ function deleteTypeclass(id) {
     axios
         .delete(`http://127.0.0.1:8000/api/type-class/${id}`)
         .then(response => {
-            typeclasses.value = typeclasses.value.filter(typeclass => typeclass.id !== id);
+            typeclass.value = typeclass.value.filter(typeclass => typeclass.id !== id);
         })
         .catch(error => console.log(error))
 }
@@ -75,7 +86,7 @@ function updateTypeclass() {
     axios
         .put(`http://127.0.0.1:8000/api/type-class/${selectedTypeclass.value.id}`, selectedTypeclass.value)
         .then(response => {
-            getTypeclasses()  // Cập nhật lại danh sách lớp
+            getTypeclass()  // Cập nhật lại danh sách lớp
             const modal = document.getElementById('editTypeclassModal')
             const modalInstance = bootstrap.Modal.getInstance(modal)
             modalInstance.hide()  // Đóng modal
@@ -126,7 +137,7 @@ onMounted(() => {
                             </div>
                             <div class="mb-3">
                                 <label for="typeclassPhone" class="form-label">Giá</label>
-                                <input v-model="typeclassPhone" type="tel" class="form-control" id="typeclassPhone" placeholder="Nhập giá" required pattern="^[0-9]{10}$" />
+                                <input v-model="typeclassPrice" type="text" class="form-control" id="typeclassPrice" placeholder="Nhập giá"  />
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
@@ -153,7 +164,7 @@ onMounted(() => {
                 <tbody>
                     <tr v-for="(item, index) in typeclass" :key="item.id">
                         <td>{{ index + 1 }}</td>
-                        <td>TC00{{ item.id }}</td>
+                        <td>{{ item.name }}</td>
                         <td>{{ item.price }}</td>
                         <td>{{ item.status || 'Chưa hoạt động' }}</td>
                         <td>
@@ -182,7 +193,7 @@ onMounted(() => {
                         </div>
                         <div class="mb-3">
                             <label for="editTypeclassPrice" class="form-label">Giá</label>
-                            <input v-model="selectedTypeclass.price" type="tel" class="form-control" id="editTypeclassPrice" placeholder="Nhập giá" required pattern="^[0-9]{10}$" />
+                            <input v-model="selectedTypeclass.price" type="text" class="form-control" id="editTypeclassPrice" placeholder="Nhập giá" />
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
