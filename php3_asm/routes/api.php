@@ -65,7 +65,9 @@ Route::get('/degrees/search/{key}', [DegreeController::class, 'search']);
 Route::get('/classes', [ClassController::class, 'index']);
 Route::get('/class/{id}', [ClassController::class, 'getById']);
 Route::post('/class', [ClassController::class, 'store']);
-Route::put('/class/2', [ClassController::class, 'update']);
+Route::put('/class/{id}', [ClassController::class, 'update']);
+Route::delete('/class/{id}', [ClassController::class, 'delete']);
+Route::get('/classes/search/{key}', [ClassController::class, 'search']);
 
 Route::get('/tutor-bills', [TutorBillController::class, 'index']);
 Route::get('/tutor-bill/{id}', [TutorBillController::class, 'getById']);
